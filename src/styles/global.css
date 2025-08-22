@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+* {
+  font-family: "Saira Variable", calibri;
+}
+
+html, body {
+  margin:0;
+  padding:0;
+}
