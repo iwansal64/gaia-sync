@@ -1,0 +1,57 @@
+---
+import { IoWaterOutline } from "react-icons/io5";
+import { FaTemperatureFull } from "react-icons/fa6";
+import { IoEyedropOutline } from "react-icons/io5";
+import { PiFish } from "react-icons/pi";
+---
+
+<div class="w-full h-full mt-4 flex flex-col gap-2">
+  <div class="w-full h-fit flex flex-row gap-2">
+    <div class="relative w-full bg-[#eee] aspect-[2/1] duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 hover:translate-y-0.5 flex justify-center items-center rounded-2xl">
+      <div class="flex flex-row absolute top-4 left-1/2 -translate-x-1/2">
+        <div class="flex flex-col justify-center items-center">
+          <IoWaterOutline className="text-xl" />
+        </div>
+        <h1 class="text-xl font-bold text-black">Water Quality</h1>
+      </div>
+      <h1 class="text-4xl font-bold text-black">Good</h1>
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-md w-full text-black flex flex-row justify-around">
+        <p class="min-w-28">EC: 208 Siemens</p>
+        <p class="min-w-28">TDS: 100 PPM</p>
+      </div>
+    </div>
+  </div>
+  <div class="w-full h-fit flex flex-row gap-2">
+    <div class="relative w-full bg-[#eee] aspect-square duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 hover:translate-y-0.5 flex justify-center items-center rounded-2xl">
+      <div class="flex flex-row absolute top-4 left-1/2 -translate-x-1/2">
+        <div class="flex flex-col justify-center items-center">
+          <FaTemperatureFull className="text-xl" />
+        </div>
+        <h1 class="text-lg font-bold text-black">Temperature</h1>
+      </div>
+      <h1 class="text-3xl font-bold text-black">26<span class="text-gray-400 text-xl">°C</span></h1>
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-md w-full text-black flex flex-row justify-around">
+        <p>78,80°F</p>
+        <p>299,15°K</p>
+      </div>
+    </div>
+    <div class="relative w-full bg-[#eee] aspect-square duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 hover:translate-y-0.5 flex justify-center items-center rounded-2xl">
+      <div class="flex flex-row absolute top-4 left-1/2 -translate-x-1/2">
+        <div class="flex flex-col justify-center items-center">
+          <IoEyedropOutline className="text-xl" />
+        </div>
+        <h1 class="text-lg font-bold text-black">pH Value</h1>
+      </div>
+      <h1 class="text-3xl font-bold text-black">7,6</h1>
+    </div>
+  </div>
+  <div class="w-full bg-[#eee] aspect-[2/1] cursor-pointer duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 active:-translate-x-0.5 hover:translate-y-0.5 active:-translate-y-0.5 flex flex-row gap-4 rounded-2xl">
+    <div class="w-full h-full flex flex-col justify-center items-center p-4">
+      <h1 class="text-2xl font-bold text-black">Fish Feed</h1>
+      <h1 class="text-base font-thin text-black">click to feed.</h1>
+    </div>
+    <div class="w-full h-full p-4 flex justify-center items-center">
+      <PiFish className="text-6xl" />
+    </div>
+  </div>
+</div>
