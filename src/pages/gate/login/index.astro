@@ -4,10 +4,10 @@ import BaseLayout from "../../../layout/base-layout.astro"
 ---
 <BaseLayout>
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] duration-1000 has-[.active]:w-[90vmin] has-[.active]:h-[90vmin] has-[.active]:rounded-4xl bg-white shadow-2xl">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vmin] h-[90vmin] delay-560 duration-1000 bg-white has-[.active]:bg-[#ccc] rounded-4xl flex flex-col gap-2 items-center justify-center">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vmin] h-[90vmin] delay-560 duration-1000 bg-white has-[.active]:bg-[#ccc] after:opacity-0 after:absolute after:-bottom-30 after:w-[200%] after:left-1/2 after:-translate-x-1/2 after:h-14 after:bg-black after:blur-2xl after:delay-1000 after:duration-1000 has-[.active]:after:opacity-100 has-[.active]:after:w-full has-[.active]:after:shadow-3xl rounded-4xl flex flex-col gap-2 items-center justify-center">
       <h1 class="absolute top-5 left-1/2 -translate-x-1/2 text-6xl font-thin tracking-wider opacity-0 delay-600 duration-1000 has-[~.active]:opacity-100">Login</h1>
       <input type="text" class="bg-green-800 text-white py-2 px-4 rounded-full" placeholder="put your email here :)" onfocus="document.getElementById('base').classList.add('active')">
-      <button id="next-btn" class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-[#ccc] opacity-0 has-[~.active]:opacity-100"></button>
+      <button id="next-btn" class="absolute flex justify-center items-center bottom-5 left-1/2 -translate-x-1/2 rounded-full overflow-hidden w-18 aspect-square p-10 bg-transparent shadow-xl pointer-events-none opacity-0 has-[~.active]:opacity-100 has-[~.active]:pointer-events-auto cursor-pointer text-black!"></button>
       <span id="base"></span>
     </div>
   </div>
@@ -18,13 +18,15 @@ import BaseLayout from "../../../layout/base-layout.astro"
     animation-name: next-btn;
     animation-iteration-count: infinite;
     animation-duration: 10s;
+    animation-timing-function: cubic-bezier(.92,0,.07,.99);
   }
   
   #next-btn::after {
-    content: '';
+    content: 'Next';
     animation-name: next-btn-content;
     animation-iteration-count: infinite;
     animation-duration: 10s;
+    animation-timing-function: cubic-bezier(.92,0,.07,.99);
   }
 
   @keyframes next-btn {
@@ -44,7 +46,7 @@ import BaseLayout from "../../../layout/base-layout.astro"
       content: "Next";
     }
     50% {
-      content: ">";
+      content: ">>>";
     }
     100% {
       content: "Next";
