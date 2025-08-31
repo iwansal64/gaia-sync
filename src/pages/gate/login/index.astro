@@ -3,53 +3,15 @@ import BaseLayout from "../../../layout/base-layout.astro"
 
 ---
 <BaseLayout>
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] duration-1000 has-[.active]:w-[90vmin] has-[.active]:h-[90vmin] has-[.active]:rounded-4xl bg-white shadow-2xl">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vmin] h-[90vmin] delay-560 duration-1000 bg-white has-[.active]:bg-[#ccc] after:opacity-0 after:absolute after:-bottom-30 after:w-[200%] after:left-1/2 after:-translate-x-1/2 after:h-14 after:bg-black after:blur-2xl after:delay-1000 after:duration-1000 has-[.active]:after:opacity-100 has-[.active]:after:w-full has-[.active]:after:shadow-3xl rounded-4xl flex flex-col gap-2 items-center justify-center">
-      <h1 class="absolute top-5 left-1/2 -translate-x-1/2 text-6xl font-thin tracking-wider opacity-0 delay-600 duration-1000 has-[~.active]:opacity-100">Login</h1>
-      <input type="text" class="bg-green-800 text-white py-2 px-4 rounded-full" placeholder="put your email here :)" onfocus="document.getElementById('base').classList.add('active')">
-      <button id="next-btn" class="absolute flex justify-center items-center bottom-5 left-1/2 -translate-x-1/2 rounded-full overflow-hidden w-18 aspect-square p-10 bg-transparent shadow-xl pointer-events-none opacity-0 has-[~.active]:opacity-100 has-[~.active]:pointer-events-auto cursor-pointer text-black!"></button>
-      <span id="base"></span>
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-fit px-8 py-10 *:text-black">
+    <h1 class="mb-20 font-thin text-6xl text-center w-full">LOGIN</h1>
+    <div class="w-full h-full flex flex-col gap-4">
+      <input placeholder="email" id="email" type="text" class="bg-transparent border border-black p-4 rounded-full">
+      <input placeholder="password" id="password" type="password" class="bg-transparent border border-black p-4 rounded-full">
     </div>
+    <div class="w-full flex justify-end">
+      <a class="text-right w-fit font-medium text-black hover:text-gray-600" href="">lupa password?</a>
+    </div>
+    <button class="border border-black w-full h-fit py-4 rounded-full mt-10 cursor-pointer active:bg-green-600 active:text-white">Login</button>
   </div>
 </BaseLayout>
-
-<style>
-  #next-btn {
-    animation-name: next-btn;
-    animation-iteration-count: infinite;
-    animation-duration: 10s;
-    animation-timing-function: cubic-bezier(.92,0,.07,.99);
-  }
-  
-  #next-btn::after {
-    content: 'Next';
-    animation-name: next-btn-content;
-    animation-iteration-count: infinite;
-    animation-duration: 10s;
-    animation-timing-function: cubic-bezier(.92,0,.07,.99);
-  }
-
-  @keyframes next-btn {
-    0% {
-      transform: rotateY(0);
-    }
-    50% {
-      transform: rotateY(180deg);
-    }
-    100% {
-      transform: rotateY(360deg);
-    }
-  }
-
-  @keyframes next-btn-content {
-    0% {
-      content: "Next";
-    }
-    50% {
-      content: ">>>";
-    }
-    100% {
-      content: "Next";
-    }
-  }
-</style>
