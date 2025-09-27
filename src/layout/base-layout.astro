@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
-import '@fontsource-variable/saira';
+import "@fontsource-variable/saira";
+import Toast from "../components/toast";
 
 ---
 
@@ -13,6 +14,7 @@ import '@fontsource-variable/saira';
 		<title>G.A.I.A Sync</title>
 	</head>
 	<body>
+		<Toast client:visible />
 		<div class="absolute top-0 left-1/2 -translate-x-1/2 h-dvh w-[90vw]">
 			<slot />
 		</div>
