@@ -15,7 +15,7 @@ export const useToastHooks = create<toastHooksType>((set) => ({
   title: "",
   message: "",
 
-  showMessage({ title, message, timeout }) {
+  showMessage({ title, message, timeout = 2000 }) {
     set(() => ({
       isOpen: true,
       title: title,

@@ -31,12 +31,15 @@ export const useLoginHooks = create<loginHooksType>((set) => ({
 
 
 
-export async function onLoginPressed(username: string, password: string) {
+export async function onLoginPressed(username: string, password: string): Promise<boolean> {
   const { showMessage } = useToastHooks.getState();
 
   try {
     const response = await API.login(username, password);
-    if(response == LoginResponseEnum.Authorized) showMessage({ title: "Successfully Login!" });
+    if(response == LoginResponseEnum.Authorized) {
+      showMessage({ title: "Successfully Login!" });
+      return true;
+    }
     else if(response == LoginResponseEnum.Unauthorized) showMessage({ title: "Username or password is wrong!" });
     else if(response == LoginResponseEnum.Error) showMessage({ title: "An unknown error has occured!" });
   }
@@ -49,6 +52,8 @@ export async function onLoginPressed(username: string, password: string) {
       console.log("Some Other Error!");
     }
   }
+  
+  return false;
 }
 
 

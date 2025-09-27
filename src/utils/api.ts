@@ -4,7 +4,8 @@ async function send_api_request({endpoint, data, method} : {endpoint: string, da
   //? Built the fetch data
   const response = await fetch(api_url+endpoint, {
     method: method,
-    body: data ? JSON.stringify(data) : undefined
+    body: data ? JSON.stringify(data) : undefined,
+    credentials: "include"
   });
 
   //? Return the response
