@@ -1,17 +1,18 @@
 ---
 import BaseLayout from "../../../layout/base-layout.astro"
+import LoginForm from "./loginForm";
+import LoginButton from "./loginButton";
 
 ---
 <BaseLayout>
   <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-fit px-8 py-10 *:text-black max-w-[500px]">
     <h1 class="mb-20 font-thin text-6xl text-center w-full">LOGIN</h1>
     <div class="w-full h-full flex flex-col gap-4">
-      <input placeholder="email" id="email" type="text" class="bg-transparent border border-black p-4 rounded-full">
-      <input placeholder="password" id="password" type="password" class="bg-transparent border border-black p-4 rounded-full">
+      <LoginForm client:visible />
     </div>
     <div class="w-full flex justify-end">
       <a class="text-right w-fit font-medium text-black hover:text-gray-600" href="">lupa password?</a>
     </div>
-    <button class="border border-black w-full h-fit py-4 rounded-full mt-10 cursor-pointer active:bg-green-600 active:text-white">Login</button>
+    <LoginButton client:visible />
   </div>
 </BaseLayout>
