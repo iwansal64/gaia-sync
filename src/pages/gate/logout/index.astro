@@ -1,8 +1,7 @@
 ---
-import { API } from "../../../utils/api";
+import LogoutEffect from "../../../components/logoutEffect";
 
-
-
-return Astro.redirect("/gate/login");
 
 ---
+
+<LogoutEffect client:only />

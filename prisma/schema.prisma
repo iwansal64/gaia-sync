@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model connections {
+  user_id   String  @db.VarChar(5)
+  device_id String  @db.VarChar(5)
+  id        String  @id @db.VarChar(5)
+  devices   devices @relation(fields: [device_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_device")
+  users     users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+}
+
+model devices {
+  id           String        @id @db.VarChar(24)
+  created_at   DateTime      @default(now()) @db.Timestamp(6)
+  access_token String        @db.VarChar(20)
+  device_name  String        @db.VarChar(20)
+  description  String?       @db.VarChar(80)
+  status       Boolean       @default(false)
+  num_sensors  Int           @default(0)
+  connections  connections[]
+  sensors      sensors[]
+}
+
+model sensors {
+  id          String   @id @db.VarChar(5)
+  device_id   String   @db.VarChar(5)
+  last_value  Int?
+  last_active DateTime @default(now()) @db.Timestamp(6)
+  devices     devices  @relation(fields: [device_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_device")
+}
+
+model users {
+  created_at          DateTime      @default(now()) @db.Timestamp(6)
+  id                  String        @unique @db.VarChar(5)
+  username            String?       @unique @db.VarChar(35)
+  password            String?       @db.VarChar(70)
+  email               String        @unique @db.VarChar(50)
+  verification_token  String?       @db.VarChar(5)
+  access_token        String?       @db.VarChar(20)
+  access_token_expire DateTime?     @db.Timestamp(6)
+  connections         connections[]
+}

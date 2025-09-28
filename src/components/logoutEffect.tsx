@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { API } from "../utils/api";
+import { API } from "../utils/api_interface";
 
 export default function LogoutEffect() {
   useEffect(() => {

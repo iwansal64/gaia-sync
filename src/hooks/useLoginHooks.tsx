@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { API, LoginResponseEnum } from "../utils/api";
+import { API, LoginResponseEnum } from "../utils/api_interface";
 import { useToastHooks } from "./useToastHooks";
 
 
