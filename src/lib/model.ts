@@ -8,5 +8,5 @@ export const ModelUser = z.object({
   email: z.string(),
   verification_token: z.string().nullable(),
   access_token: z.string().nullable(),
-  access_token_expire: z.string().nullable()
+  access_token_expire: z.date().nullable()
 });

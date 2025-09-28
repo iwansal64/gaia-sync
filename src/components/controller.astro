@@ -3,6 +3,13 @@ import { IoWaterOutline } from "react-icons/io5";
 import { FaTemperatureFull } from "react-icons/fa6";
 import { IoEyedropOutline } from "react-icons/io5";
 import { PiFish } from "react-icons/pi";
+
+import WaterQualityValue from "./data/water_quality";
+import ElectricalConductivityValue from "./data/electrical_conductivity";
+import TotalDissolvedParticlesValue from "./data/total_dissolved_particles.tsx";
+import WaterTemperatureValue from "./data/water_temperature.tsx";
+import WaterSubTemperatureValue from "./data/water_sub_temperature.tsx";
+import PHValue from "./data/ph_value.tsx";
 ---
 
 <div class="w-full max-h-full h-fit mt-4 grid grid-rows-[1fr_1fr_1fr_auto] gap-4">
@@ -15,10 +22,10 @@ import { PiFish } from "react-icons/pi";
         </div>
         <h1 class="text-xl font-bold text-black">Water Quality</h1>
       </div>
-      <h1 class="text-4xl font-bold text-black">Good</h1>
+      <WaterQualityValue client:load />
       <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-md w-full text-black flex flex-row justify-around">
-        <p class="min-w-28">EC: 208 Siemens</p>
-        <p class="min-w-28">TDS: 100 PPM</p>
+        <p class="min-w-28">EC: <ElectricalConductivityValue client:load /> Siemens</p>
+        <p class="min-w-28">TDS: <TotalDissolvedParticlesValue client:load /> PPM</p>
       </div>
     </div>
   </div>
@@ -31,10 +38,9 @@ import { PiFish } from "react-icons/pi";
         </div>
         <h1 class="text-lg font-bold text-black">Temperature</h1>
       </div>
-      <h1 class="text-3xl font-bold text-black">26<span class="text-gray-400 text-xl">°C</span></h1>
+      <h1 class="text-3xl font-bold text-black"><WaterTemperatureValue client:load /><span class="text-gray-400 text-xl">°C</span></h1>
       <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-md w-full text-black flex flex-row justify-around">
-        <p>78,80°F</p>
-        <p>299,15°K</p>
+        <WaterSubTemperatureValue client:load />
       </div>
     </div>
     <div class="relative w-full h-64 bg-[#eee] duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 hover:translate-y-0.5 flex justify-center items-center rounded-2xl">
@@ -44,7 +50,9 @@ import { PiFish } from "react-icons/pi";
         </div>
         <h1 class="text-lg font-bold text-black">pH Value</h1>
       </div>
-      <h1 class="text-3xl font-bold text-black">7,6</h1>
+      <h1 class="text-3xl font-bold text-black">
+        <PHValue client:load />
+      </h1>
     </div>
   </div>
   <!-- Fish Feeding -->
