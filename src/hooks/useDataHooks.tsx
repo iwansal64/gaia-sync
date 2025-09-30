@@ -52,17 +52,17 @@ export default function UseDataHooksEffect() {
     setData({
       ec: Math.floor((Math.random() * 250 + 50)) / 100,
       ph: Math.floor((Math.random() * 60 + 680)) / 100,
-      tds: Math.floor(Math.random() * 3000 + 1000),
+      tds: Math.floor(Math.random() * 500 + 100),
       tempC: Math.floor((Math.random() * 70 + 200)) / 10
     })
     setInterval(() => {
       setData({
         ec: Math.floor((Math.random() * 250 + 50)) / 100,
         ph: Math.floor((Math.random() * 60 + 680)) / 100,
-        tds: Math.floor(Math.random() * 3000 + 1000),
+        tds: Math.floor(Math.random() * 500 + 100),
         tempC: Math.floor((Math.random() * 70 + 200)) / 10
       })
-    }, 5000);
+    }, 3000);
   }, []);
   
   return <></>;

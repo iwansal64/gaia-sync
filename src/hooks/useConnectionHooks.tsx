@@ -80,43 +80,44 @@ export default function UseConnectionHooksEffect() {
   const { setData } = useDataHooks();
 
   useEffect(() => {
-    if(!userId || !accessToken) return;
+    return; // Temporary for development only
+    // if(!userId || !accessToken) return;
 
     
-    const mqttClient = new MQTTClient("172.27.218.82", 9001, userId);
+    // const mqttClient = new MQTTClient("172.27.218.82", 9001, userId);
 
-    mqttClient.onConnectionLost = (responseObject) => {
-      console.log("Connection lost:", responseObject.errorMessage);
-      setIsConnected(false);
-    };
+    // mqttClient.onConnectionLost = (responseObject) => {
+    //   console.log("Connection lost:", responseObject.errorMessage);
+    //   setIsConnected(false);
+    // };
 
-    mqttClient.onMessageArrived = (message: Message) => {
-      const data = constructMessageData(message.payloadString);
-      console.log(data);
-      setData(data);
-    };
+    // mqttClient.onMessageArrived = (message: Message) => {
+    //   const data = constructMessageData(message.payloadString);
+    //   console.log(data);
+    //   setData(data);
+    // };
 
 
-    console.log("CONNECTING..");
-    mqttClient.connect({
-      useSSL: false,
-      userName: userId,
-      password: accessToken,
-      onSuccess: () => {
-        console.log("MQTT Connected!");
-        mqttClient.subscribe("PwlDq");
-      },
-      onFailure: (err) => {
-        console.error("There's an error");
-        console.error(err);
-      }
-    });
+    // console.log("CONNECTING..");
+    // mqttClient.connect({
+    //   useSSL: false,
+    //   userName: userId,
+    //   password: accessToken,
+    //   onSuccess: () => {
+    //     console.log("MQTT Connected!");
+    //     mqttClient.subscribe("PwlDq");
+    //   },
+    //   onFailure: (err) => {
+    //     console.error("There's an error");
+    //     console.error(err);
+    //   }
+    // });
 
-    return (() => {
-      if(mqttClient.isConnected()) {
-        mqttClient.disconnect();
-      }
-    });
+    // return (() => {
+    //   if(mqttClient.isConnected()) {
+    //     mqttClient.disconnect();
+    //   }
+    // });
   }, []);
   
   return <></>;
