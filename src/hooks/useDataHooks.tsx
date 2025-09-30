@@ -34,7 +34,7 @@ export const useDataHooks = create<UseDataHookType>((set) => ({
 }));
 
 export default function UseDataHooksEffect() {
-  const { ec, tds, setWaterQuality } = useDataHooks();
+  const { ec, tds, setWaterQuality, setData } = useDataHooks();
   
   useEffect(() => {
     if(!ec || !tds) return;
@@ -46,6 +46,24 @@ export default function UseDataHooksEffect() {
       setWaterQuality("Poor");
     }
   }, [ec, tds]);
+
+
+  useEffect(() => {
+    setData({
+      ec: Math.floor((Math.random() * 250 + 50)) / 100,
+      ph: Math.floor((Math.random() * 60 + 680)) / 100,
+      tds: Math.floor(Math.random() * 3000 + 1000),
+      tempC: Math.floor((Math.random() * 70 + 200)) / 10
+    })
+    setInterval(() => {
+      setData({
+        ec: Math.floor((Math.random() * 250 + 50)) / 100,
+        ph: Math.floor((Math.random() * 60 + 680)) / 100,
+        tds: Math.floor(Math.random() * 3000 + 1000),
+        tempC: Math.floor((Math.random() * 70 + 200)) / 10
+      })
+    }, 5000);
+  }, []);
   
   return <></>;
 }
