@@ -24,7 +24,7 @@ import PHValue from "./data/ph_value.tsx";
       </div>
       <WaterQualityValue client:load />
       <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-md w-full text-black flex flex-row justify-around">
-        <p class="min-w-28">EC: <ElectricalConductivityValue client:load /> Siemens</p>
+        <p class="min-w-28">EC: <ElectricalConductivityValue client:load /> µS/cm</p>
         <p class="min-w-28">TDS: <TotalDissolvedParticlesValue client:load /> PPM</p>
       </div>
     </div>
@@ -66,6 +66,6 @@ import PHValue from "./data/ph_value.tsx";
     </div>
   </div>
   <div class="w-full">
-    <button class="w-fit h-full px-8 py-4 cursor-pointer bg-red-500 text-white rounded-xl duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 active:-translate-x-0.5 hover:translate-y-0.5 active:-translate-y-0.5" onclick="window.location.href = '/gate/logout';">Logout</button>
+    <button class="w-fit rh-full px-8 py-4 cursor-pointer bg-red-500 text-white rounded-xl duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 active:-translate-x-0.5 hover:translate-y-0.5 active:-translate-y-0.5" onclick="window.location.href = '/gate/logout';">Logout</button>
   </div>
 </div>

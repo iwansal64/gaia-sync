@@ -39,7 +39,7 @@ export default function UseDataHooksEffect() {
   useEffect(() => {
     if(!ec || !tds) return;
 
-    if(ec < 3 && tds < 500) {
+    if(ec < 3) {
       setWaterQuality("Good");
     }
     else {
@@ -47,22 +47,24 @@ export default function UseDataHooksEffect() {
     }
   }, [ec, tds]);
 
+  function updateData() {
+    const ec = Math.floor((Math.random() * 250 + 50)) / 100;
+    const ph = Math.floor((Math.random() * 60 + 680)) / 100;
+    const tds = Math.floor(ec * 64000) / 100;
+    const tempC = Math.floor((Math.random() * 70 + 200)) / 10;
+
+    setData({
+      ec: ec,
+      ph: ph,
+      tds: tds,
+      tempC: tempC
+    });
+
+    setTimeout(updateData, 3000);
+  }
 
   useEffect(() => {
-    setData({
-      ec: Math.floor((Math.random() * 250 + 50)) / 100,
-      ph: Math.floor((Math.random() * 60 + 680)) / 100,
-      tds: Math.floor(Math.random() * 500 + 100),
-      tempC: Math.floor((Math.random() * 70 + 200)) / 10
-    })
-    setInterval(() => {
-      setData({
-        ec: Math.floor((Math.random() * 250 + 50)) / 100,
-        ph: Math.floor((Math.random() * 60 + 680)) / 100,
-        tds: Math.floor(Math.random() * 500 + 100),
-        tempC: Math.floor((Math.random() * 70 + 200)) / 10
-      })
-    }, 3000);
+    updateData();
   }, []);
   
   return <></>;
