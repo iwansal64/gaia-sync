@@ -23,7 +23,7 @@ export enum LoginResponseEnum {
 }
 
 export class API {
-  static async login(username: string, password: string): Promise<LoginResponseEnum> {
+  static async login(username: string, password: string): Promise<{[key: string]: string}|LoginResponseEnum> {
     //? Send post request
     const response = await send_api_request({
       endpoint: "/user/login",
@@ -35,7 +35,7 @@ export class API {
     });
     
     //? Check the respose
-    if(response.ok) return LoginResponseEnum.Authorized;
+    if(response.ok) return (await response.json());
     else if(response.status == 401) return LoginResponseEnum.Unauthorized;
     else return LoginResponseEnum.Error;
   }

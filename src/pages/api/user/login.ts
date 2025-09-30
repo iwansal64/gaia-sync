@@ -73,5 +73,11 @@ export async function POST({ request }: APIContext): Promise<Response> {
   
   
   // Return the result with the genrated cookie
-  return create_response({ cookie: generated_cookie });
+  return create_response({ 
+    body: {
+      "id": user_data.id,
+      "access_token": generated_access_token
+    },
+    cookie: generated_cookie
+  });
 };

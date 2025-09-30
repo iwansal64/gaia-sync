@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware"
 import { Message, Client as MQTTClient } from "paho-mqtt";
 import { useEffect } from "react";
 import { useDataHooks } from "./useDataHooks";
@@ -9,23 +10,51 @@ export type UseConnectionHooksType = {
 
   userId?: string,
   setUserId: (newUserId: string) => void,
+
+  accessToken?: string,
+  setAccessToken: (newAccessToken: string) => void,
+
+  clearLoginInfo: () => void
 };
 
-export const useConnectionHooks = create<UseConnectionHooksType>((set) => ({
-  isConnected: false,
+export const useConnectionHooks = create<UseConnectionHooksType>()(
+  persist(
+    (set) => ({
+      isConnected: false,
 
-  setIsConnected(newState) {
-    set(() => ({ isConnected: newState }));
-  },
+      setIsConnected(newState) {
+        set(() => ({ isConnected: newState }));
+      },
 
-  userId: "cEiiw",
+      userId: "",
 
-  setUserId(newClientId) {
-    set(() => ({
-      userId: newClientId
-    }));    
-  },
-}));
+      setUserId(newClientId) {
+        set(() => ({
+          userId: newClientId
+        }));    
+      },
+
+      accessToken: "",
+
+      setAccessToken(newAccessToken) {
+        set(() => ({
+          accessToken: newAccessToken
+        }));
+      },
+
+      clearLoginInfo() {
+        set(() => ({
+          accessToken: "",
+          userId: ""
+        }));
+      },
+    }),
+    {
+      name: "gaia-connection-data",
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({ userId: state.userId, accessToken: state.accessToken }),
+    }
+));
 
 function constructMessageData(message: string) {
   const keyValuePairs: string[][] = message.split(";").map(data => data.split("="));
@@ -47,13 +76,14 @@ function constructMessageData(message: string) {
 }
 
 export default function UseConnectionHooksEffect() {
-  const { userId, setIsConnected } = useConnectionHooks();
+  const { userId, accessToken, setIsConnected } = useConnectionHooks();
   const { setData } = useDataHooks();
 
   useEffect(() => {
-    if(!userId) return;
+    if(!userId || !accessToken) return;
 
-    const mqttClient = new MQTTClient("localhost", 9001, userId);
+    
+    const mqttClient = new MQTTClient("172.27.218.82", 9001, userId);
 
     mqttClient.onConnectionLost = (responseObject) => {
       console.log("Connection lost:", responseObject.errorMessage);
@@ -70,8 +100,8 @@ export default function UseConnectionHooksEffect() {
     console.log("CONNECTING..");
     mqttClient.connect({
       useSSL: false,
-      userName: "iwan",
-      password: "Iwaniwan123",
+      userName: userId,
+      password: accessToken,
       onSuccess: () => {
         console.log("MQTT Connected!");
         mqttClient.subscribe("PwlDq");
