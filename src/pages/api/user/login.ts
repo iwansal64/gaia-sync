@@ -13,13 +13,22 @@ const PostType = z.object({
 
 export async function POST({ request }: APIContext): Promise<Response> {
   // Get the body response
-  const body = await request.json();
+  const body = await (async () => {
+    try {
+      return await request.json();
+    }
+    catch(err) {
+      return false;
+    }
+  })();
+
+  if(!body) return create_response({ status: 400 });
 
 
   // Verify the body;
   const result = PostType.safeParse(body);
   if(!result.success) {
-    return create_response({ status: 404 });
+    return create_response({ status: 400 });
   }
 
   const username = result.data.username;

@@ -21,6 +21,7 @@
     "cookie": "^1.0.2",
     "cookie-parser": "^1.4.7",
     "js-sha3": "^0.9.3",
+    "nodemailer": "^7.0.7",
     "paho-mqtt": "^1.1.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.9",
+    "@types/nodemailer": "^7.0.2",
     "@types/paho-mqtt": "^1.0.10",
     "@types/pg": "^8.15.5",
     "prisma": "^6.16.2"
