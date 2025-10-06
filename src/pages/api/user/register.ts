@@ -1,7 +1,7 @@
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/db";
 import { z } from "zod";
-import { create_cookie, create_response, generate_access_token, generate_id, generate_verification_token } from "../../../lib/api_helper";
+import { create_cookie, create_response, generate_id, generate_verification_token } from "../../../lib/api_helper";
 import nodemailer from "nodemailer";
 
 const PostType = z.object({
@@ -77,9 +77,7 @@ export async function POST({ request }: APIContext): Promise<Response> {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Message sent: %s", info.messageId);
-    // Example: Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    await transporter.sendMail(mailOptions);
   } catch (error) {
     console.error("Error sending email:", error);
   }
