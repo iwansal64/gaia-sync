@@ -99,6 +99,6 @@ export async function POST({ request }: APIContext): Promise<Response> {
     body: {
       email: email,
     },
-    cookie: generated_cookie,
+    cookies: [generated_cookie],
   });
 }

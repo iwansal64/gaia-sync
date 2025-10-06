@@ -1,14 +1,17 @@
 import * as cookie from "cookie";
 import { id_characters, id_length, token_characters, token_length, verfication_token_characters, verfication_token_length } from "./api_config";
 
-export function create_response({body, status = 200, cookie}: {body?: any, status?: number, cookie?: string}): Response {
+export function create_response({body, status = 200, cookies}: {body?: any, status?: number, cookies?: string[]}): Response {
+  const headers: Headers = new Headers();
+  cookies?.forEach((cookie) => {
+    headers.append("Set-Cookie", cookie);
+  })
+  
   return new Response(
     JSON.stringify(body),
     { 
       status: status,
-      headers: {
-        "Set-Cookie": cookie ?? ""
-      }
+      headers: headers
     }
   )
 }

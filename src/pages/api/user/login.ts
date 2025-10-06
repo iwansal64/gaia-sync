@@ -87,6 +87,6 @@ export async function POST({ request }: APIContext): Promise<Response> {
       "id": user_data.id,
       "access_token": generated_access_token
     },
-    cookie: generated_cookie
+    cookies: [generated_cookie]
   });
 };

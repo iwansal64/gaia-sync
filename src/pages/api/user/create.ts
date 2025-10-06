@@ -2,9 +2,11 @@ import type { APIContext } from "astro";
 import { prisma } from "../../../lib/db";
 import { z } from "zod";
 import { create_cookie, create_response } from "../../../lib/api_helper";
+import sha3 from "js-sha3";
 
 const PostType = z.object({
-  verification_token: z.string(),
+  username: z.string(),
+  password: z.string()
 });
 
 export async function POST({ request, cookies }: APIContext): Promise<Response> {
@@ -30,8 +32,9 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
   }
 
   
-  // Get the token
-  const verification_token = result.data.verification_token;
+  // Get the username and password
+  const username = result.data.username;
+  const password = result.data.password;
 
 
   // Check into the database
@@ -44,17 +47,42 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
   // Verify if the user exists
   if (!user_data) return create_response({ status: 404 });
 
+  // Get the verification token
+  const verification_token = cookies.get("create_user_token")?.value;
+  if(!verification_token) return create_response({ status: 401 });
+  
   // Check if the email verification token is valid
   if(user_data.verification_token != verification_token) return create_response({ status: 401 });
 
-  const create_user_token = create_cookie({
-    name: "create_user_token",
-    value: user_data.verification_token,
-    maxAge: 3600
-  });
+  // Get the hashed password
+  const hashed_password = sha3.sha3_256(password);
   
+  // Update the user data
+  await prisma.users.update({
+    where: {
+      email: user_data.email,
+    },
+    data: {
+      username: username,
+      password: hashed_password,
+    }
+  })
+
+  // Send clear cookie for several keys
+  const clear_email_token_cookie = create_cookie({
+    name: "email_token",
+    maxAge: 0
+  });
+  const clear_verification_token_cookie = create_cookie({
+    name: "email_token",
+    maxAge: 0
+  });
+
   // Return OK
   return create_response({
-    cookies: [create_user_token]
+    cookies: [
+      clear_email_token_cookie,
+      clear_verification_token_cookie
+    ]
   });
 }
