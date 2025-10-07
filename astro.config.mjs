@@ -1,10 +1,18 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { loadEnv } from "vite";
 
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
 import vercel from '@astrojs/vercel';
+
+const env = loadEnv(
+  process.env.NODE_ENV || "",
+  process.cwd(),
+  ''
+);
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +21,10 @@ export default defineConfig({
   vite: {
     plugins: [
       tailwindcss()
-    ]
+    ],
+    server: {
+      allowedHosts: env.ALLOWED_HOSTS?.split(",") || ['localhost']
+    }
   },
 
   integrations: [react()],
