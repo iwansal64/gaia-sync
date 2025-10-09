@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { create } from "zustand";
 
 
-type Data = {
+type SensorData = {
   ec?: number,
   tds?: number,
 
@@ -11,14 +11,14 @@ type Data = {
   ph?: number,
 }
 
-type UseDataHookType = Data & {
+type UseSensorDataHookType = SensorData & {
   waterQuality?: string,
 
   setWaterQuality: (newState: string) => void,
-  setData: (newData: Data) => void,
+  setData: (newData: SensorData) => void,
 };
 
-export const useDataHooks = create<UseDataHookType>((set) => ({
+export const useSensorDataHooks = create<UseSensorDataHookType>((set) => ({
   setWaterQuality(newState) {
     set(() => ({
       waterQuality: newState
@@ -33,8 +33,8 @@ export const useDataHooks = create<UseDataHookType>((set) => ({
   },
 }));
 
-export default function UseDataHooksEffect() {
-  const { ec, tds, setWaterQuality } = useDataHooks();
+export default function UseSensorDataHooksEffect() {
+  const { ec, tds, setWaterQuality } = useSensorDataHooks();
   
   useEffect(() => {
     if(!ec || !tds) return;

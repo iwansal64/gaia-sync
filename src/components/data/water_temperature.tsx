@@ -1,7 +1,7 @@
-import { useDataHooks } from "../../hooks/useDataHooks";
+import { useSensorDataHooks } from "../../hooks/useSensorDataHooks";
 
 export default function WaterTemperatureValue() {
-  const { tempC } = useDataHooks();
+  const { tempC } = useSensorDataHooks();
 
   return <>{tempC ?? "-"}</>;
 }

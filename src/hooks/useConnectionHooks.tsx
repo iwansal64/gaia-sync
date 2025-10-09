@@ -2,59 +2,21 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware"
 import { Message, Client as MQTTClient } from "paho-mqtt";
 import { useEffect } from "react";
-import { useDataHooks } from "./useDataHooks";
+import { useSensorDataHooks } from "./useSensorDataHooks";
+import { useUserDataHooks } from "./useUserDataHooks";
 
 export type UseConnectionHooksType = {
   isConnected: boolean,
   setIsConnected: (newState: boolean) => void,
-
-  userId?: string,
-  setUserId: (newUserId: string) => void,
-
-  accessToken?: string,
-  setAccessToken: (newAccessToken: string) => void,
-
-  clearLoginInfo: () => void
 };
 
-export const useConnectionHooks = create<UseConnectionHooksType>()(
-  persist(
-    (set) => ({
-      isConnected: false,
+export const useConnectionHooks = create<UseConnectionHooksType>()((set) => ({
+  isConnected: false,
 
-      setIsConnected(newState) {
-        set(() => ({ isConnected: newState }));
-      },
-
-      userId: "",
-
-      setUserId(newClientId) {
-        set(() => ({
-          userId: newClientId
-        }));    
-      },
-
-      accessToken: "",
-
-      setAccessToken(newAccessToken) {
-        set(() => ({
-          accessToken: newAccessToken
-        }));
-      },
-
-      clearLoginInfo() {
-        set(() => ({
-          accessToken: "",
-          userId: ""
-        }));
-      },
-    }),
-    {
-      name: "gaia-connection-data",
-      storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({ userId: state.userId, accessToken: state.accessToken }),
-    }
-));
+  setIsConnected(newState) {
+    set(() => ({ isConnected: newState }));
+  },
+}));
 
 function constructMessageData(message: string) {
   const keyValuePairs: string[][] = message.split(";").map(data => data.split("="));
@@ -76,8 +38,9 @@ function constructMessageData(message: string) {
 }
 
 export default function UseConnectionHooksEffect() {
-  const { userId, accessToken, setIsConnected } = useConnectionHooks();
-  const { setData } = useDataHooks();
+  const { setIsConnected } = useConnectionHooks();
+  const { accessToken, userId } = useUserDataHooks();
+  const { setData } = useSensorDataHooks();
 
   useEffect(() => {
     if(!userId || !accessToken) return;

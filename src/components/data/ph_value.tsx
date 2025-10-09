@@ -1,7 +1,7 @@
-import { useDataHooks } from "../../hooks/useDataHooks";
+import { useSensorDataHooks } from "../../hooks/useSensorDataHooks";
 
 export default function PHValue() {
-  const { ph } = useDataHooks();
+  const { ph } = useSensorDataHooks();
   
   return <>{ph ?? "-"}</>;
 }

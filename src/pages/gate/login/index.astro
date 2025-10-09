@@ -2,17 +2,19 @@
 import BaseLayout from "../../../layout/base-layout.astro"
 import LoginForm from "../../../components/login_form";
 import LoginButton from "../../../components/login_button";
+import UseConnectionHooksEffect from "../../../hooks/useConnectionHooks";
 
 ---
 <BaseLayout>
   <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-fit px-8 py-10 *:text-black max-w-[500px]">
     <h1 class="mb-20 font-thin text-6xl text-center w-full">LOGIN</h1>
     <div class="w-full h-full flex flex-col gap-4">
-      <LoginForm client:visible />
+      <LoginForm client:load />
     </div>
     <div class="w-full flex justify-end">
       <a class="text-right w-fit font-medium text-black hover:text-gray-600" href="">lupa password?</a>
     </div>
-    <LoginButton client:only />
+    <UseConnectionHooksEffect client:only />
+    <LoginButton client:load />
   </div>
 </BaseLayout>

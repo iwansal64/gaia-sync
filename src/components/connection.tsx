@@ -1,9 +1,9 @@
 import UseConnectionHooksEffect from "../hooks/useConnectionHooks";
-import UseDataHooksEffect from "../hooks/useDataHooks";
+import UseSensorDataHooksEffect from "../hooks/useSensorDataHooks";
 
 export default function Connection() {
   return <>
     <UseConnectionHooksEffect />
-    <UseDataHooksEffect />
+    <UseSensorDataHooksEffect />
   </>;
 }
