@@ -46,7 +46,7 @@ export default function UseConnectionHooksEffect() {
     if(!userId || !accessToken) return;
 
     
-    const mqttClient = new MQTTClient("172.27.218.82", 9001, userId);
+    const mqttClient = new MQTTClient("mqttws.gaia-odc.domain", 443, "/", userId);
 
     mqttClient.onConnectionLost = (responseObject) => {
       console.log("Connection lost:", responseObject.errorMessage);
@@ -62,7 +62,7 @@ export default function UseConnectionHooksEffect() {
 
     console.log("CONNECTING..");
     mqttClient.connect({
-      useSSL: false,
+      useSSL: true,
       userName: userId,
       password: accessToken,
       onSuccess: () => {
@@ -72,7 +72,7 @@ export default function UseConnectionHooksEffect() {
       onFailure: (err) => {
         console.error("There's an error");
         console.error(err);
-      }
+      },
     });
 
     return (() => {
