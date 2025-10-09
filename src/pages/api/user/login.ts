@@ -80,12 +80,26 @@ export async function POST({ request }: APIContext): Promise<Response> {
   // Save the token to the cookie
   const generated_cookie = create_cookie({ name: "access_token", value: generated_access_token });
   
+
+
+  // Send device token
+  const device_data = await prisma.devices.findFirst({
+    where: {
+      connections: {
+        some: {
+          user_id: user_data.id
+        }
+      }
+    }
+  })
+  
   
   // Return the result with the genrated cookie
   return create_response({ 
     body: {
       "id": user_data.id,
-      "access_token": generated_access_token
+      "access_token": generated_access_token,
+      "device_token": device_data?.id || ""
     },
     cookies: [generated_cookie]
   });

@@ -6,6 +6,9 @@ type UseUserDataType = {
   userId?: string,
   setUserId: (newUserId: string) => void,
 
+  deviceId?: string,
+  setDeviceId: (newDeviceId: string) => void,
+
   accessToken?: string,
   setAccessToken: (newAccessToken: string) => void,
 
@@ -22,6 +25,14 @@ export const useUserDataHooks = create<UseUserDataType>()(
           userId: newClientId
         }));    
       }, 
+
+      deviceId: "",
+
+      setDeviceId(newDeviceId) {
+        set(() => ({
+          deviceId: newDeviceId
+        }));    
+      },
 
       accessToken: "",
 
@@ -40,8 +51,7 @@ export const useUserDataHooks = create<UseUserDataType>()(
     }),
     {
       name: "gaia-connection-data",
-      storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({ userId: state.userId, accessToken: state.accessToken }),
+      storage: createJSONStorage(() => sessionStorage)
     }
 ))
 

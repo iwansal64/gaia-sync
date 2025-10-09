@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware"
 import { Message, Client as MQTTClient } from "paho-mqtt";
 import { useEffect } from "react";
 import { useSensorDataHooks } from "./useSensorDataHooks";
@@ -39,14 +38,16 @@ function constructMessageData(message: string) {
 
 export default function UseConnectionHooksEffect() {
   const { setIsConnected } = useConnectionHooks();
-  const { accessToken, userId } = useUserDataHooks();
+  const { accessToken, userId, deviceId } = useUserDataHooks();
   const { setData } = useSensorDataHooks();
 
   useEffect(() => {
-    if(!userId || !accessToken) return;
+    console.log("Checking Data..")
+    if(!userId || !accessToken || !deviceId) return;
+    console.log("Connecting..")
 
     
-    const mqttClient = new MQTTClient("mqttws.gaia-odc.domain", 443, "/", userId);
+    const mqttClient = new MQTTClient("mqttws.gaia-odc.digital", 443, "/", userId);
 
     mqttClient.onConnectionLost = (responseObject) => {
       console.log("Connection lost:", responseObject.errorMessage);
@@ -60,14 +61,14 @@ export default function UseConnectionHooksEffect() {
     };
 
 
-    console.log("CONNECTING..");
+    console.log("ws");
     mqttClient.connect({
       useSSL: true,
       userName: userId,
       password: accessToken,
       onSuccess: () => {
         console.log("MQTT Connected!");
-        mqttClient.subscribe("PwlDq");
+        mqttClient.subscribe(deviceId);
       },
       onFailure: (err) => {
         console.error("There's an error");
