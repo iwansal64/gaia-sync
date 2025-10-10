@@ -55,7 +55,7 @@ export default function UseConnectionHooksEffect() {
     };
 
     mqttClient.onMessageArrived = (message: Message) => {
-      const data = Number.parseInt(message.payloadString);
+      const data = Number.parseFloat(message.payloadString);
       if(isNaN(data)) return;
 
       switch (message.destinationName) {
