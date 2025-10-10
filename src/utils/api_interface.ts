@@ -61,4 +61,18 @@ export class API {
     //? Return the response
     return response.ok;
   }
+
+  static async register(email: string): Promise<boolean> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/user/register",
+      method: "POST",
+      data: {
+        email: email
+      }
+    });
+    
+    //? Check the respose
+    return response.ok;
+  }
 }

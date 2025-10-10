@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../../layout/base-layout.astro"
+import RegisterForm from "../../../components/register/register_form";
+import RegisterButton from "../../../components/register/register_button";
+import UseConnectionHooksEffect from "../../../hooks/useConnectionHooks";
+
+---
+<BaseLayout>
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-fit px-8 py-10 *:text-black max-w-[500px]">
+    <h1 class="font-thin text-6xl text-center w-full">REGISTER</h1>
+    <p class="mb-20 font-thin text-md text-center w-full">Register your new account by providing your email address</p>
+    <div class="w-full h-full flex flex-col gap-4">
+      <RegisterForm client:load />
+    </div>
+    <UseConnectionHooksEffect client:only />
+    <RegisterButton client:load />
+    <div class="w-full text-center mt-2">
+      <a href="/gate/login" class="hover:text-green-500">Already have an account?</a>
+    </div>
+  </div>
+</BaseLayout>
