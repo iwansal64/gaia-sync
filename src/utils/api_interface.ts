@@ -28,6 +28,12 @@ export enum VerifyResponseEnum {
   Error
 }
 
+export enum CreateUserResponseEnum {
+  Authorized,
+  Unauthorized,
+  Error
+}
+
 export class API {
   static async login(username: string, password: string): Promise<{[key: string]: string}|LoginResponseEnum> {
     //? Send post request
@@ -97,6 +103,25 @@ export class API {
       case 200: return VerifyResponseEnum.Authorized;
       case 401: return VerifyResponseEnum.Unauthorized;
       default: return VerifyResponseEnum.Error;
+    }
+  }
+
+  static async create(new_username: string, new_password: string): Promise<CreateUserResponseEnum> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/user/create",
+      method: "POST",
+      data: {
+        username: new_username,
+        password: new_password
+      }
+    });
+    
+    //? Check the respose
+    switch (response.status) {
+      case 200: return CreateUserResponseEnum.Authorized;
+      case 401: return CreateUserResponseEnum.Unauthorized;
+      default: return CreateUserResponseEnum.Error;
     }
   }
 }

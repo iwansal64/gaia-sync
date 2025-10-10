@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { API, LoginResponseEnum, VerifyResponseEnum } from "../utils/api_interface";
+import { API, CreateUserResponseEnum, LoginResponseEnum, VerifyResponseEnum } from "../utils/api_interface";
 import { useToastHooks } from "./useToastHooks";
 
 
@@ -87,6 +87,34 @@ export async function onVerifyPressed(verification_token: string): Promise<boole
       case VerifyResponseEnum.Authorized: showMessage({ title: "Registration Success!" }); return true;
       case VerifyResponseEnum.Unauthorized: showMessage({ title: "Token is wrong!" }); break;
       case VerifyResponseEnum.Error: showMessage({ title: "An unknown error has occured!" }); break;
+      default: break;
+    }
+
+    return false;
+  }
+  catch(e) {
+    if(e instanceof TypeError) {
+      console.log("Fetch Error!");
+      showMessage({ title: "Network Error!", message: "There's unexpected error occured!", timeout: 5000 });
+    }
+    else {
+      console.log("Some Other Error!");
+    }
+  }
+  
+  return false;
+}
+
+export async function onCreateUser(new_username: string, new_password: string): Promise<boolean> {
+  const { showMessage } = useToastHooks.getState();
+
+  try {
+    const response = await API.create(new_username, new_password);
+    
+    switch(response) {
+      case CreateUserResponseEnum.Authorized: showMessage({ title: "Registration Success!" }); return true;
+      case CreateUserResponseEnum.Unauthorized: showMessage({ title: "Token is wrong!" }); break;
+      case CreateUserResponseEnum.Error: showMessage({ title: "An unknown error has occured!" }); break;
       default: break;
     }
 

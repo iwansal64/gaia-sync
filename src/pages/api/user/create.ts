@@ -37,6 +37,10 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
   const password = result.data.password;
 
 
+  // Verify username and password
+  if(username.length <= 2 || password.length < 8) return create_response({ status: 400 });
+  
+
   // Check into the database
   const user_data = await prisma.users.findUnique({
     where: {

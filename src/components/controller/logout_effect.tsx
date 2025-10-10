@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { API } from "../utils/api_interface";
-import { useUserDataHooks } from "../hooks/useUserDataHooks";
+import { API } from "../../utils/api_interface";
+import { useUserDataHooks } from "../../hooks/useUserDataHooks";
 
 export default function LogoutEffect() {
   const { clearLoginInfo } = useUserDataHooks();

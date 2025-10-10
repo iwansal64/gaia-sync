@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useToastHooks } from "../hooks/useToastHooks";
+import { useToastHooks } from "../../hooks/useToastHooks";
 
 export default function Toast() {
   const { isOpen, title, message } = useToastHooks();

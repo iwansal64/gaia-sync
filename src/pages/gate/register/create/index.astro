@@ -1,0 +1,16 @@
+---
+import CreateUserButton from "../../../../components/register/create_user_button";
+import CreateUserForm from "../../../../components/register/create_user_form";
+import BaseLayout from "../../../../layout/base-layout.astro"
+
+---
+<BaseLayout>
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-fit px-8 py-10 *:text-black max-w-[500px]">
+    <h1 class="font-thin text-6xl text-center w-full">Create User</h1>
+    <p class="mb-20 font-thin text-md text-center w-full">Please, follow these forms to complete registration!</p>
+    <div class="w-full h-full flex flex-col gap-4">
+      <CreateUserForm client:load />
+    </div>
+    <CreateUserButton client:load />    
+  </div>
+</BaseLayout>

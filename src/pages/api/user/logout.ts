@@ -1,5 +1,4 @@
 import type { APIContext } from "astro";
-import * as cookie from "cookie";
 import { create_cookie, create_response } from "../../../lib/api_helper";
 
 export async function POST(_: APIContext): Promise<Response> {
