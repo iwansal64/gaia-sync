@@ -1,11 +1,13 @@
 ---
 import Connection from "./connection";
 import Controller from "./controller.astro";
+import LoginRequired from "./login_required";
 import Navbar from "./navbar.astro"
 ---
 
 
 <div class="absolute top-0 left-0 w-full h-dvh flex flex-col">
+  <LoginRequired client:only />
   <Connection client:only />
   <Navbar />
   <Controller />

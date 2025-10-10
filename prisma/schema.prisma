@@ -43,7 +43,7 @@ model users {
   password            String?       @db.VarChar(70)
   email               String        @unique @db.VarChar(50)
   verification_token  String?       @db.VarChar(5)
-  access_token        String?       @db.VarChar(20)
+  access_token        String?       @db.VarChar(20) @unique
   access_token_expire DateTime?     @db.Timestamp(6)
   connections         connections[]
 }

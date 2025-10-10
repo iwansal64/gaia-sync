@@ -50,4 +50,15 @@ export class API {
     //? Return the response
     return response.ok;
   }
+
+  static async is_authorized(): Promise<boolean> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/user/check_authorized",
+      method: "POST"
+    });
+
+    //? Return the response
+    return response.ok;
+  }
 }
