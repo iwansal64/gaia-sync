@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { API, LoginResponseEnum } from "../utils/api_interface";
+import { API, LoginResponseEnum, VerifyResponseEnum } from "../utils/api_interface";
 import { useToastHooks } from "./useToastHooks";
 
 
@@ -12,6 +12,9 @@ export type registerHooksType = {
 
   newEmail: string,
   setNewEmail: (newEmail: string) => void,
+
+  verificationToken: string,
+  setVerificationToken: (newVerificationToken: string) => void,
 };
 
 
@@ -37,6 +40,13 @@ export const useRegisterHooks = create<registerHooksType>((set) => ({
       newEmail: newEmail
     }));
   },
+
+  verificationToken: "",
+  setVerificationToken(newVerificationToken) {
+    set(() => ({
+      verificationToken: newVerificationToken
+    }));
+  }
 }));
 
 
@@ -53,6 +63,34 @@ export async function onRegisterPressed(email: string): Promise<boolean> {
     else         showMessage({ title: "An unknown error has occured!" });
 
     return response;
+  }
+  catch(e) {
+    if(e instanceof TypeError) {
+      console.log("Fetch Error!");
+      showMessage({ title: "Network Error!", message: "There's unexpected error occured!", timeout: 5000 });
+    }
+    else {
+      console.log("Some Other Error!");
+    }
+  }
+  
+  return false;
+}
+
+export async function onVerifyPressed(verification_token: string): Promise<boolean> {
+  const { showMessage } = useToastHooks.getState();
+
+  try {
+    const response = await API.verify(verification_token);
+    
+    switch(response) {
+      case VerifyResponseEnum.Authorized: showMessage({ title: "Registration Success!" }); return true;
+      case VerifyResponseEnum.Unauthorized: showMessage({ title: "Token is wrong!" }); break;
+      case VerifyResponseEnum.Error: showMessage({ title: "An unknown error has occured!" }); break;
+      default: break;
+    }
+
+    return false;
   }
   catch(e) {
     if(e instanceof TypeError) {

@@ -2,7 +2,6 @@
 import BaseLayout from "../../../layout/base-layout.astro"
 import LoginForm from "../../../components/login/login_form";
 import LoginButton from "../../../components/login/login_button";
-import UseConnectionHooksEffect from "../../../hooks/useConnectionHooks";
 
 ---
 <BaseLayout>
@@ -15,7 +14,6 @@ import UseConnectionHooksEffect from "../../../hooks/useConnectionHooks";
     <div class="w-full flex justify-end">
       <a class="text-right w-fit font-medium text-black hover:text-gray-600" href="">lupa password?</a>
     </div>
-    <UseConnectionHooksEffect client:only />
     <LoginButton client:load />
     <div class="w-full text-center mt-2">
       <a href="/gate/register" class="hover:text-green-500">Don't have an account yet?</a>

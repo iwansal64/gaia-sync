@@ -22,6 +22,12 @@ export enum LoginResponseEnum {
   Error
 }
 
+export enum VerifyResponseEnum {
+  Authorized,
+  Unauthorized,
+  Error
+}
+
 export class API {
   static async login(username: string, password: string): Promise<{[key: string]: string}|LoginResponseEnum> {
     //? Send post request
@@ -74,5 +80,23 @@ export class API {
     
     //? Check the respose
     return response.ok;
+  }
+  
+  static async verify(token: string): Promise<VerifyResponseEnum> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/user/verify",
+      method: "POST",
+      data: {
+        verification_token: token
+      }
+    });
+    
+    //? Check the respose
+    switch (response.status) {
+      case 200: return VerifyResponseEnum.Authorized;
+      case 401: return VerifyResponseEnum.Unauthorized;
+      default: return VerifyResponseEnum.Error;
+    }
   }
 }
