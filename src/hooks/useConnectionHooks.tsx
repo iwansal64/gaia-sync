@@ -55,9 +55,39 @@ export default function UseConnectionHooksEffect() {
     };
 
     mqttClient.onMessageArrived = (message: Message) => {
-      const data = constructMessageData(message.payloadString);
+      const data = Number.parseInt(message.payloadString);
+      if(isNaN(data)) return;
+
+      switch (message.destinationName) {
+        case `${deviceId}/tds`:
+          setData({
+            tds: data
+          });
+          break;
+
+        case `${deviceId}/ec`:
+          setData({
+            ec: data
+          });
+          break;
+
+        case `${deviceId}/ph`:
+          setData({
+            ph: data 
+          })
+          break;
+
+        case `${deviceId}/tempC`:
+          setData({
+            tempC: data
+          })
+          break;
+      
+        default:
+          break;
+      }
+
       console.log(data);
-      setData(data);
     };
 
 
@@ -68,7 +98,10 @@ export default function UseConnectionHooksEffect() {
       password: accessToken,
       onSuccess: () => {
         console.log("MQTT Connected!");
-        mqttClient.subscribe(deviceId);
+        mqttClient.subscribe(`${deviceId}/tds`);
+        mqttClient.subscribe(`${deviceId}/ec`);
+        mqttClient.subscribe(`${deviceId}/tempC`);
+        mqttClient.subscribe(`${deviceId}/ph`);
       },
       onFailure: (err) => {
         console.error("There's an error");
