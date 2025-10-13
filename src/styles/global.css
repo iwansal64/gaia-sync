@@ -23,3 +23,12 @@ html, body {
 body {
   background-color: #eee;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #5f0;
+}

@@ -86,8 +86,6 @@ export default function UseConnectionHooksEffect() {
         default:
           break;
       }
-
-      console.log(data);
     };
 
 

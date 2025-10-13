@@ -3,7 +3,7 @@ import { prisma } from "../../../lib/db";
 import { z } from "zod";
 import { create_cookie, create_response, generate_access_token_expiration, generate_access_token } from "../../../lib/api_helper";
 import sha3 from "js-sha3";
-import { ModelUser } from "../../../lib/model";
+import { AccessedModelUser } from "../../../lib/model";
 
 
 const PostType = z.object({
@@ -47,14 +47,6 @@ export async function POST({ request }: APIContext): Promise<Response> {
   if(!user_data) return create_response({ status: 401 });
   
   
-  // Verify data from database
-  const safe_parse_result = ModelUser.safeParse(user_data);
-  if(!safe_parse_result.success) {
-    console.error(`There's an error when trying to parse model user: ${safe_parse_result.error}`)
-    return create_response({ status: 500 });
-  }
-
-
   // Verify password
   const hashed_password = sha3.sha3_256(password);
   if(user_data.password != hashed_password) return create_response({ status: 401 });

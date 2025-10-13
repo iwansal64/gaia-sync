@@ -12,6 +12,8 @@ model connections {
   user_id   String  @db.VarChar(5)
   device_id String  @db.VarChar(5)
   id        String  @id @db.VarChar(5)
+  accepted  Boolean @default(false)
+  
   devices   devices @relation(fields: [device_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_device")
   users     users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
 }
@@ -24,6 +26,7 @@ model devices {
   description  String?       @db.VarChar(80)
   status       Boolean       @default(false)
   num_sensors  Int           @default(0)
+  last_online  DateTime?
   connections  connections[]
   sensors      sensors[]
 }

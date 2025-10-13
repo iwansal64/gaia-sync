@@ -1,3 +1,6 @@
+import z from "zod";
+import { AccessedModelDevice, type AccessedModelDeviceType } from "../lib/model";
+
 const api_url: string = "/api";
 
 async function send_api_request({endpoint, data, method = "POST"} : {endpoint: string, data?: object, method?: "POST" | "GET" | "DELETE" | "PUT"}): Promise<Response> {
@@ -124,4 +127,31 @@ export class API {
       default: return CreateUserResponseEnum.Error;
     }
   }
+
+  static async get_devices(): Promise<AccessedModelDeviceType[] | null> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/user/get_devices",
+      method: "POST"
+    });
+    
+    //? Check the respose
+    if (response.ok) {
+      const devices_data = (await response.json())["devices_data"];
+      if(devices_data == undefined) {
+        return null;
+      }
+
+      const safe_device_data = z.array(AccessedModelDevice).safeParse(devices_data);
+      
+      if(!safe_device_data.success) {
+        console.error(safe_device_data.error);
+        return null;
+      }
+
+      return devices_data["device_data"];
+    }
+
+    return null;
+  }  
 }

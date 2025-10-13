@@ -1,5 +1,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { type AccessedModelDeviceType } from '../lib/model';
+import { useEffect } from "react";
+import { API } from "../utils/api_interface";
 
 
 type UseUserDataType = {
@@ -8,6 +11,9 @@ type UseUserDataType = {
 
   deviceId?: string,
   setDeviceId: (newDeviceId: string) => void,
+
+  devicesData?: AccessedModelDeviceType[],
+  setDevicesData: (newDevicesData: AccessedModelDeviceType[]) => void
 
   accessToken?: string,
   setAccessToken: (newAccessToken: string) => void,
@@ -19,7 +25,6 @@ export const useUserDataHooks = create<UseUserDataType>()(
   persist(
     (set) => ({
       userId: "",
-
       setUserId(newClientId) {
         set(() => ({
           userId: newClientId
@@ -27,7 +32,6 @@ export const useUserDataHooks = create<UseUserDataType>()(
       }, 
 
       deviceId: "",
-
       setDeviceId(newDeviceId) {
         set(() => ({
           deviceId: newDeviceId
@@ -35,7 +39,6 @@ export const useUserDataHooks = create<UseUserDataType>()(
       },
 
       accessToken: "",
-
       setAccessToken(newAccessToken) {
         set(() => ({
           accessToken: newAccessToken
@@ -48,6 +51,13 @@ export const useUserDataHooks = create<UseUserDataType>()(
           userId: ""
         }));
       },
+
+      devicesData: undefined,
+      setDevicesData(newDevicesData) {
+        set(() => ({
+          devicesData: newDevicesData
+        }));
+      },
     }),
     {
       name: "gaia-connection-data",
@@ -56,6 +66,17 @@ export const useUserDataHooks = create<UseUserDataType>()(
 ))
 
 export default function UseUserDataHooksEffect() {
+  const { devicesData, userId, accessToken, setDevicesData } = useUserDataHooks();
+
+  useEffect(() => {
+    console.log("GET DEVCE");
+    if(!devicesData) {
+      API.get_devices().then((data) => {
+        
+      });
+    }
+  }, []);
+  
   return <></>;
 }
   

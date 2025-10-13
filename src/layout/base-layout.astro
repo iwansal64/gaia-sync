@@ -16,8 +16,6 @@ import Toast from "../components/global/toast";
 	</head>
 	<body>
 		<Toast client:only />
-		<div class="absolute top-0 left-1/2 -translate-x-1/2 h-dvh w-[90vw]">
-			<slot />
-		</div>
+		<slot />
 	</body>
 </html>

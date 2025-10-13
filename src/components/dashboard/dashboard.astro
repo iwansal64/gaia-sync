@@ -1,0 +1,28 @@
+---
+import NavbarButtons from "./navbar/navbar_button";
+import ContentController from "./contents/content_controller";
+
+
+---
+
+<div class="absolute top-0 left-0 w-dvw h-dvh flex flex-row">
+  <nav class="w-fit h-full flex flex-col bg-gray-600 gap-8">
+    <div class="flex flex-col mt-6 px-8 box-border gap-8">
+      <div>
+        <h1 class="font-bold text-white text-2xl">GAIA</h1>
+        <h1 class="font-thin text-white text-sm">Green Aquaponics Intelligent Assistance</h1>
+      </div>
+      <button class="px-2 py-4 rounded-full w-full h-full bg-[#5c0] text-white font-bold cursor-pointer hover:brightness-110">Get Insight Today!</button>
+    </div>
+    <NavbarButtons client:load />
+    <div class="h-full flex flex-col justify-end">
+      <a class="w-full p-4 bg-gray-500 text-white cursor-pointer hover:brightness-110" href="/gate/logout">
+        Logout
+      </a>
+    </div>
+  </nav>
+
+  <div class="w-full h-full">
+    <ContentController client:load />
+  </div>
+</div>
