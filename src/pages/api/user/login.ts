@@ -3,7 +3,6 @@ import { prisma } from "../../../lib/db";
 import { z } from "zod";
 import { create_cookie, create_response, generate_access_token_expiration, generate_access_token } from "../../../lib/api_helper";
 import sha3 from "js-sha3";
-import { AccessedModelUser } from "../../../lib/model";
 
 
 const PostType = z.object({

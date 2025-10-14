@@ -1,9 +1,14 @@
 ---
 import NavbarButtons from "./navbar/navbar_button";
 import ContentController from "./contents/content_controller";
+import ConnectDeviceModal from "./modal/add_device";
+import LoginRequired from "../global/login_required";
 
 
 ---
+
+<LoginRequired client:only />
+<ConnectDeviceModal client:load />
 
 <div class="absolute top-0 left-0 w-dvw h-dvh flex flex-row">
   <nav class="w-fit h-full flex flex-col bg-gray-600 gap-8">

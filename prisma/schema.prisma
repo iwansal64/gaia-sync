@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
   engineType = "library"
 }
 
@@ -9,13 +9,16 @@ datasource db {
 }
 
 model connections {
-  user_id   String  @db.VarChar(5)
-  device_id String  @db.VarChar(5)
-  id        String  @id @db.VarChar(5)
-  accepted  Boolean @default(false)
-  
-  devices   devices @relation(fields: [device_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_device")
-  users     users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+  user_id         String  @db.VarChar(5)
+  device_id       String  @db.VarChar(5)
+  id              String  @id @db.VarChar(5)
+  user_accepted   Boolean @default(false)
+  device_accepted Boolean @default(false)
+
+  devices devices @relation(fields: [device_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_device")
+  users   users   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+
+  @@unique([user_id, device_id])
 }
 
 model devices {
@@ -46,7 +49,7 @@ model users {
   password            String?       @db.VarChar(70)
   email               String        @unique @db.VarChar(50)
   verification_token  String?       @db.VarChar(5)
-  access_token        String?       @db.VarChar(20) @unique
+  access_token        String?       @unique @db.VarChar(20)
   access_token_expire DateTime?     @db.Timestamp(6)
   connections         connections[]
 }

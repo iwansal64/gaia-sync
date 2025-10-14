@@ -37,6 +37,12 @@ export enum CreateUserResponseEnum {
   Error
 }
 
+export enum ConnectDeviceResponseEnum {
+  Authorized,
+  Unauthorized,
+  Error
+}
+
 export class API {
   static async login(username: string, password: string): Promise<{[key: string]: string}|LoginResponseEnum> {
     //? Send post request
@@ -149,9 +155,27 @@ export class API {
         return null;
       }
 
-      return devices_data["device_data"];
+      return devices_data;
     }
 
     return null;
-  }  
+  }
+
+  static async connect_device(device_id: string): Promise<ConnectDeviceResponseEnum> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/connect/user",
+      method: "POST",
+      data: {
+        device_id: device_id
+      }
+    });
+    
+    //? Check the respose
+    switch (response.status) {
+      case 200: return ConnectDeviceResponseEnum.Authorized;
+      case 401: return ConnectDeviceResponseEnum.Unauthorized;
+      default: return ConnectDeviceResponseEnum.Error;
+    }
+  }
 }

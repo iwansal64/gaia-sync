@@ -10,7 +10,6 @@ export default function LoginButton() {
   const handleLogin = async () => {
     const result = await onLoginPressed(username, password);
     if(result) {
-      console.log(result);
       setUserId(result["id"]);
       setDeviceId(result["device_token"]);
       setAccessToken(result["access_token"]);

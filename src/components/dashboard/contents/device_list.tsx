@@ -1,8 +1,11 @@
+import { useEffect } from "react";
+import { useAddDeviceHooks } from "../../../hooks/useAddDeviceModalHooks";
 import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/useUserDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 
 export default function DeviceList() {
   const { devicesData } = useUserDataHooks();
+  const { showConnectDeviceModal } = useAddDeviceHooks();
 
   return <>
     <UseUserDataHooksEffect />
@@ -11,12 +14,12 @@ export default function DeviceList() {
         <input type="text" className="px-6 py-6 outline-none w-full" placeholder="Search for device name" />
       </div>
       <div className="w-full py-4 px-4 flex flex-row justify-end">
-        <button className="py-4 px-8 bg-gray-500 text-white rounded-full text-sm cursor-pointer hover:brightness-110">Add Device</button>
+        <button className="py-4 px-8 bg-gray-500 text-white rounded-full text-sm cursor-pointer hover:brightness-110" onClick={showConnectDeviceModal}>Add Device</button>
       </div>
       <div className="w-full h-full p-4 box-border flex justify-center items-center">
         <div className="w-[90%] h-[90%] grid grid-cols-4 auto-rows-[200px] gap-4 overflow-y-auto overflow-x-hidden p-4">
-          {devicesData?.map((data) => {
-            return <DeviceCard device_id={data.id} device_last_seen={data.last_login ? new Date(data.last_login) : undefined} device_name={data.device_name} />
+          {devicesData?.map((data, index) => {
+            return <DeviceCard key={index} device_id={data.id} device_last_seen={data.last_online ? new Date(data.last_online) : undefined} device_name={data.device_name} />
           })}
         </div>
       </div>
@@ -32,8 +35,14 @@ interface DeviceCardProps {
 }
 
 function DeviceCard(props: DeviceCardProps) {
-  return <button className="relative text-left p-4 flex flex-col bg-gray-300 rounded-2xl cursor-pointer hover:brightness-105" onClick={() => { window.location.href = `/monitor/?id=${props.device_id}`; }}>
+  const { setDeviceId } = useUserDataHooks();
+  const handleClick = () => {
+    setDeviceId(props.device_id);
+    window.location.href = `/monitor/`;
+  }
+
+  return <button className="relative text-left p-4 flex flex-col bg-gray-300 rounded-2xl cursor-pointer hover:brightness-105" onClick={handleClick}>
     <h1>{props.device_name}</h1>
-    <p className="absolute bottom-3">{props.device_last_seen ? dateFormat(props.device_last_seen) : "Device has never online."}</p>
+    {props.device_last_seen ? <p className="absolute bottom-3">dateFormat(props.device_last_seen)</p> : <p className="opacity-50 text-sm absolute bottom-3">Device has never online.</p>}
   </button>
 }

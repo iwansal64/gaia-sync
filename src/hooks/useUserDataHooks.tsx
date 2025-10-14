@@ -66,15 +66,16 @@ export const useUserDataHooks = create<UseUserDataType>()(
 ))
 
 export default function UseUserDataHooksEffect() {
-  const { devicesData, userId, accessToken, setDevicesData } = useUserDataHooks();
+  const { setDevicesData } = useUserDataHooks();
 
   useEffect(() => {
-    console.log("GET DEVCE");
-    if(!devicesData) {
-      API.get_devices().then((data) => {
-        
-      });
-    }
+    API.get_devices().then((data) => {
+      // If the data empty or there's an error
+      if(!data) return;
+      
+      // Update devices data
+      setDevicesData(data);
+    });
   }, []);
   
   return <></>;

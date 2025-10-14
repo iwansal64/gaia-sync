@@ -13,9 +13,9 @@ export const  AccessedModelDevice = z.object({
   created_at: z.string(),
   id: z.string(),
   device_name: z.string(),
-  description: z.string().optional(),
+  description: z.string().nullable(),
   status: z.boolean(),
-  last_login: z.string().optional()
+  last_online: z.string().nullable()
 });
 
 export type AccessedModelDeviceType = z.infer<typeof AccessedModelDevice>;
