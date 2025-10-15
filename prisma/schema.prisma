@@ -31,16 +31,8 @@ model devices {
   num_sensors  Int           @default(0)
   last_online  DateTime?
   connections  connections[]
-  sensors      sensors[]
 }
 
-model sensors {
-  id          String   @id @db.VarChar(5)
-  device_id   String   @db.VarChar(5)
-  last_value  Int?
-  last_active DateTime @default(now()) @db.Timestamp(6)
-  devices     devices  @relation(fields: [device_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_device")
-}
 
 model users {
   created_at          DateTime      @default(now()) @db.Timestamp(6)
