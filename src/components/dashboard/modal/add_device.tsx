@@ -1,11 +1,44 @@
 import { useAddDeviceHooks } from "../../../hooks/useAddDeviceModalHooks";
+import { useToastHooks } from "../../../hooks/useToastHooks";
 import { useUserDataHooks } from "../../../hooks/useUserDataHooks";
-import { API } from "../../../utils/api_interface";
+import { API, ConnectDeviceResponseEnum } from "../../../utils/api_interface";
 
 
 export default function ConnectDeviceModal() {
   const { userId } = useUserDataHooks();
   const { connectDeviceModalState, hideConnectDeviceModal, connectDeviceId, setConnectDeviceId } = useAddDeviceHooks();
+  const { showMessage } = useToastHooks();
+
+  const onConnectDevice = async () => {
+    const result = await API.connect_device(connectDeviceId);
+    if(result == ConnectDeviceResponseEnum.Authorized) {
+      showMessage({
+        title: "Success!",
+        message: "Successfully connect to the device. If you haven't configure the device you should follow the instruction!",
+        timeout: 4000
+      });
+    }
+    else if(result == ConnectDeviceResponseEnum.NotFound) {
+      showMessage({
+        title: "ID is not found",
+        message: "Please check your device ID",
+        timeout: 5000
+      });
+    }
+    else if(result == ConnectDeviceResponseEnum.Unauthorized) {
+      showMessage({
+        title: "Unauthorized!",
+        timeout: 4000
+      });
+    }
+    else if(result == ConnectDeviceResponseEnum.Error) {
+      showMessage({
+        title: "Error Detected!",
+        message: "There's an unknown error occured!",
+        timeout: 4000
+      });
+    }
+  }
 
   return <>
     <div className={`fixed top-0 left-0 w-full h-full duration-200 ${connectDeviceModalState ? "opacity-100 z-101" : "opacity-0 pointer-events-none"}`}>
@@ -15,7 +48,7 @@ export default function ConnectDeviceModal() {
           <h1 className="font-bold text-center w-full text-xl">Add Device</h1>
         </div>
         <input type="text" className="p-4 outline-none bg-gray-500 text-white!" placeholder="Device ID" value={connectDeviceId} onChange={(e) => setConnectDeviceId(e.target.value)} />
-        <button className="px-4 py-2 rounded-full bg-gray-500 text-white text-sm font-thin cursor-pointer hover:brightness-110" onClick={() => { API.connect_device(connectDeviceId) }}>Connect Device!</button>
+        <button className="px-4 py-2 rounded-full bg-gray-500 text-white text-sm font-thin cursor-pointer hover:brightness-110" onClick={onConnectDevice}>Connect Device!</button>
         <div className="w-full h-fit mt-6">
           <h1 className="font-bold w-full text-center text-lg">Intruction for adding new device</h1>
           <div className="px-4 mt-4">

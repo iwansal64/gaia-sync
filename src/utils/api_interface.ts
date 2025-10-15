@@ -40,6 +40,7 @@ export enum CreateUserResponseEnum {
 export enum ConnectDeviceResponseEnum {
   Authorized,
   Unauthorized,
+  NotFound,
   Error
 }
 
@@ -175,6 +176,7 @@ export class API {
     switch (response.status) {
       case 200: return ConnectDeviceResponseEnum.Authorized;
       case 401: return ConnectDeviceResponseEnum.Unauthorized;
+      case 404: return ConnectDeviceResponseEnum.NotFound;
       default: return ConnectDeviceResponseEnum.Error;
     }
   }

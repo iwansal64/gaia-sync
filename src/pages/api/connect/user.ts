@@ -46,7 +46,7 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
 
   
   // Verify if the device exists
-  if(!device_data) return create_response({ status: 401 });
+  if(!device_data) return create_response({ status: 404 });
   
 
   // Create or Update the connection data
