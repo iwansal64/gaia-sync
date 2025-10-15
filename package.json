@@ -6,11 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "start": "node ./dist/server/entry.mjs",
+    "restart": "npm run build && npm run start"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.0",
     "@astrojs/react": "^4.3.0",
-    "@astrojs/vercel": "^8.2.8",
     "@fontsource-variable/saira": "5.2.10",
     "@prisma/client": "^6.16.2",
     "@tailwindcss/vite": "^4.1.12",

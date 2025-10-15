@@ -5,7 +5,7 @@ import { loadEnv } from "vite";
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
-import vercel from '@astrojs/vercel';
+import node from '@astrojs/node';
 
 const env = loadEnv(
   process.env.NODE_ENV || "",
@@ -28,5 +28,7 @@ export default defineConfig({
   },
 
   integrations: [react()],
-  adapter: vercel()
+  adapter: node({
+    mode: "standalone"
+  })
 });
