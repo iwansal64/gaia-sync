@@ -6,6 +6,6 @@ export default function LoginForm() {
   
   return <>
     <input onChange={(e) => setUsername(e.target.value)} placeholder="username" id="username" type="text" className="bg-transparent border border-black p-4 rounded-full" />
-    <input onChange={(e) => setPassword(e.target.value)} placeholder="password" id="password" type="password" className="bg-transparent border border-black p-4 rounded-full" />
+    <input onChange={(e) => setPassword(e.target.value)} placeholder="password" id="password" type="password" className="bg-transparent border border-black p-4 rounded-full" autoComplete="off" autoCorrect="off" />
   </>;
 }
