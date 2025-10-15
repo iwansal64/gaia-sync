@@ -3,6 +3,7 @@ import { id_characters, id_length, token_characters, token_length, verfication_t
 import type { devices, users } from "@prisma/client";
 import type { AstroCookies } from "astro";
 import { prisma } from "./db";
+import dns from "dns/promises";
 
 export function create_response({body, status = 200, cookies}: {body?: any, status?: number, cookies?: string[]}): Response {
   const headers: Headers = new Headers();
@@ -66,6 +67,20 @@ export async function get_user_data_from_cookies(cookies: AstroCookies): Promise
   if(!user_data) return null;
 
   return user_data;
+}
+
+export function is_email_valid(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export async function is_email_domain_valid(email: string) {
+  const domain = email.split("@")[1];
+  try {
+    const records = await dns.resolveMx(domain);
+    return records && records.length > 0;
+  } catch {
+    return false;
+  }
 }
 
 

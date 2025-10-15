@@ -1,7 +1,7 @@
 import type { APIContext } from "astro";
 import { prisma } from "../../../lib/db";
 import { z } from "zod";
-import { create_cookie, create_response, generate_id, generate_verification_token } from "../../../lib/api_helper";
+import { create_cookie, create_response, generate_id, generate_verification_token, is_email_domain_valid, is_email_valid } from "../../../lib/api_helper";
 import nodemailer from "nodemailer";
 
 const PostType = z.object({
@@ -28,6 +28,11 @@ export async function POST({ request }: APIContext): Promise<Response> {
 
   // Get the email from user
   const email = result.data.email;
+
+  // Verify email
+  if(!is_email_valid(email)) return create_response({ status: 400 });
+  if(!(await is_email_domain_valid(email))) return create_response({ status: 400 });
+  
 
   // Check into the database
   const user_data = await prisma.users.findUnique({
