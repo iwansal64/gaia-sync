@@ -50,23 +50,27 @@ export function generate_verification_token(): string {
   return (new Array<string>(verfication_token_length).fill(" ")).map(() => verfication_token_characters.charAt(Math.floor(Math.random() * characters_length))).join("");
 }
 
-export async function get_user_data_from_cookies(cookies: AstroCookies): Promise<users | null> {
+export async function get_user_data_from_cookies(cookies: AstroCookies, is_device?: boolean): Promise<users | devices | null> {
   const access_token = cookies.get("access_token")?.value;
   
   // If there's no access token
   if(!access_token) return null;
 
   // Get the user data
-  const user_data = await prisma.users.findUnique({
-    where: {
-      access_token: access_token
-    }
-  });
-
-  // If there's no user data
-  if(!user_data) return null;
-
-  return user_data;
+  if(!is_device) {
+    return await prisma.users.findUnique({
+      where: {
+        access_token: access_token
+      }
+    });
+  }
+  else {
+    return await prisma.devices.findUnique({
+      where: {
+        access_token: access_token
+      }
+    });
+  }
 }
 
 export function is_email_valid(email: string) {

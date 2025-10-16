@@ -1,6 +1,5 @@
 import { defineMiddleware } from "astro/middleware";
-import { create_response } from "./lib/api_helper";
-import { prisma } from "./lib/db";
+import { create_response, get_user_data_from_cookies } from "./lib/api_helper";
 
 const allowed_pathnames: string[] = ["/api/user/login", "/api/user/register", "/api/user/verify", "/api/user/create"];
 
@@ -23,11 +22,8 @@ export const onRequest = defineMiddleware(async ({ request, cookies, url }, next
       if(!access_token) return create_response({ status: 401 });
       
       // Check into the database
-      const user_data = await prisma.users.findUnique({
-        where: {
-          access_token: access_token
-        }
-      });
+      let user_data = await get_user_data_from_cookies(cookies);
+      if(!user_data) user_data = await get_user_data_from_cookies(cookies, true);
       
       // Verify if the user exists
       if(!user_data) return create_response({ status: 401 });
