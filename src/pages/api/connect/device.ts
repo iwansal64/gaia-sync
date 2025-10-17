@@ -38,7 +38,7 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
   
   
   // Check into the database
-  const user_data = await prisma.devices.findUnique({
+  const user_data = await prisma.users.findUnique({
     where: {
       id: user_id
     }
@@ -53,12 +53,12 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
   await prisma.connections.upsert({
     where: {
       user_id_device_id: {
-        device_id: user_data.id,
+        device_id: device_data.id,
         user_id: user_data.id
       }
     },
     update: {
-      user_accepted: true
+      device_accepted: true
     },
     create: {
       id: generate_id(),
@@ -72,7 +72,7 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
           id: user_data.id // and Device ID
         }
       },
-      user_accepted: true
+      device_accepted: true
     }
   });
 
