@@ -12,7 +12,7 @@ import WaterSubTemperatureValue from "./data/water_sub_temperature.tsx";
 import PHValue from "./data/ph_value.tsx";
 ---
 
-<div class="w-full max-h-full h-fit mt-4 grid grid-rows-[1fr_1fr_1fr_auto] gap-4 overflow-x-hidden overflow-y-visible">
+<div class="w-full max-h-full h-fit mt-4 grid grid-rows-[1fr_1fr_1fr_auto] gap-4 overflow-x-hidden overflow-y-visible p-4 md:p-10">
   <!-- Water Quality -->
   <div class="w-full h-fit flex flex-row gap-2">
     <div class="relative w-full h-64 bg-[#eee] duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 hover:translate-y-0.5 flex justify-center items-center rounded-2xl">
@@ -67,5 +67,6 @@ import PHValue from "./data/ph_value.tsx";
   </div>
   <div class="w-full">
     <button class="w-fit h-full px-8 py-4 cursor-pointer bg-red-500 text-white rounded-xl duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 active:-translate-x-0.5 hover:translate-y-0.5 active:-translate-y-0.5" onclick="window.location.href = '/gate/logout';">Logout</button>
+    <button class="w-fit h-full px-8 py-4 cursor-pointer bg-gray-500 text-white rounded-xl duration-250 shadow-lg hover:shadow-2xl hover:translate-x-0.5 active:-translate-x-0.5 hover:translate-y-0.5 active:-translate-y-0.5" onclick="window.location.href = '/';">Back</button>
   </div>
 </div>
