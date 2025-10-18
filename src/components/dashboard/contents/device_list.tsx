@@ -43,6 +43,6 @@ function DeviceCard(props: DeviceCardProps) {
 
   return <button className="relative text-left p-4 flex flex-col bg-gray-300 rounded-2xl cursor-pointer hover:brightness-105" onClick={handleClick}>
     <h1>{props.device_name}</h1>
-    {props.device_last_seen ? <p className="absolute bottom-3">dateFormat(props.device_last_seen)</p> : <p className="opacity-50 text-sm absolute bottom-3">Device has never online.</p>}
+    {props.device_last_seen ? <p className="absolute bottom-3">{dateFormat(props.device_last_seen)}</p> : <p className="opacity-50 text-sm absolute bottom-3">Device has never online.</p>}
   </button>
 }
