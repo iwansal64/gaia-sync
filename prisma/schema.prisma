@@ -28,7 +28,6 @@ model devices {
   device_name  String        @db.VarChar(20)
   description  String?       @db.VarChar(80)
   status       Boolean       @default(false)
-  num_sensors  Int           @default(0)
   last_online  DateTime?
   connections  connections[]
 }
