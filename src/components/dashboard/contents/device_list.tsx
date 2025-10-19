@@ -2,23 +2,25 @@ import { useEffect } from "react";
 import { useAddDeviceHooks } from "../../../hooks/useAddDeviceModalHooks";
 import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/useUserDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
+import { useDeviceListHooks } from "../../../hooks/useDeviceListHooks";
 
 export default function DeviceList() {
   const { devicesData } = useUserDataHooks();
   const { showConnectDeviceModal } = useAddDeviceHooks();
+  const { setDeviceSearchKeyword, deviceSearchKeyword } = useDeviceListHooks();
 
   return <>
     <UseUserDataHooksEffect />
     <div className="w-full h-full flex flex-col">
       <div className="w-full h-fit px-2 bg-gray-400 flex flex-row">
-        <input type="text" className="px-6 py-6 outline-none w-full" placeholder="Search for device name" />
+        <input type="text" className="px-6 py-6 outline-none w-full" placeholder="Search for device name" value={deviceSearchKeyword} onChange={(e) => setDeviceSearchKeyword(e.target.value.toLowerCase())} />
       </div>
       <div className="w-full py-4 px-4 flex flex-row justify-end">
         <button className="py-4 px-8 bg-gray-500 text-white rounded-full text-sm cursor-pointer hover:brightness-110" onClick={showConnectDeviceModal}>Add Device</button>
       </div>
       <div className="w-full h-full p-4 box-border flex justify-center items-center">
         <div className="w-[90%] h-[90%] grid grid-cols-4 auto-rows-[200px] gap-4 overflow-y-auto overflow-x-hidden p-4">
-          {devicesData?.map((data, index) => {
+          {devicesData?.filter((data) => data.device_name.toLowerCase().includes(deviceSearchKeyword)).map((data, index) => {
             return <DeviceCard key={index} device_id={data.id} device_last_seen={data.last_online ? new Date(data.last_online) : undefined} device_name={data.device_name} />
           })}
         </div>
