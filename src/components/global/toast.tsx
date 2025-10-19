@@ -1,4 +1,4 @@
-import { useToastHooks } from "../../hooks/useToastHooks";
+import { useToastHooks } from "../../hooks/global_hooks/useToastHooks";
 
 export default function Toast() {
   const { isOpen, title, message } = useToastHooks();

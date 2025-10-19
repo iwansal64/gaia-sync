@@ -1,5 +1,5 @@
 import "react";
-import { useRegisterHooks, onVerifyPressed } from "../../hooks/useRegisterHooks";
+import { useRegisterHooks, onVerifyPressed } from "../../hooks/gate_hooks/useRegisterHooks";
 
 export default function TokenSubmitButton() {
   const { verificationToken } = useRegisterHooks();

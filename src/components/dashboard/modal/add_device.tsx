@@ -1,6 +1,6 @@
-import { useAddDeviceHooks } from "../../../hooks/useAddDeviceModalHooks";
-import { useToastHooks } from "../../../hooks/useToastHooks";
-import { useUserDataHooks } from "../../../hooks/useUserDataHooks";
+import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useAddDeviceModalHooks";
+import { useToastHooks } from "../../../hooks/global_hooks/useToastHooks";
+import { useUserDataHooks } from "../../../hooks/user_hooks/useUserDataHooks";
 import { API, ConnectDeviceResponseEnum } from "../../../utils/api_interface";
 
 

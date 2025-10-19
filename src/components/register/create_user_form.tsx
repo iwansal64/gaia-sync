@@ -1,5 +1,5 @@
 import "react";
-import { useRegisterHooks } from "../../hooks/useRegisterHooks";
+import { useRegisterHooks } from "../../hooks/gate_hooks/useRegisterHooks";
 
 export default function CreateUserForm() {
   const { setNewUsername, setNewPassword } = useRegisterHooks();

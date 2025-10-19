@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRegisterHooks } from "../../hooks/useRegisterHooks";
+import { useRegisterHooks } from "../../hooks/gate_hooks/useRegisterHooks";
 
 export default function InputTokenForm() {
   const { setVerificationToken, verificationToken } = useRegisterHooks();

@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { type AccessedModelDeviceType } from '../lib/model';
+import { type AccessedModelDeviceType } from '../../lib/model';
 import { useEffect } from "react";
-import { API } from "../utils/api_interface";
+import { API } from "../../utils/api_interface";
 
 
 type UseUserDataType = {

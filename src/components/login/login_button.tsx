@@ -1,6 +1,6 @@
 import "react";
-import { onLoginPressed, useLoginHooks } from "../../hooks/useLoginHooks";
-import { useUserDataHooks } from "../../hooks/useUserDataHooks";
+import { onLoginPressed, useLoginHooks } from "../../hooks/gate_hooks/useLoginHooks";
+import { useUserDataHooks } from "../../hooks/user_hooks/useUserDataHooks";
 
 
 export default function LoginButton() {

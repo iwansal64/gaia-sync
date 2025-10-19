@@ -1,5 +1,5 @@
 import "react";
-import { onRegisterPressed, useRegisterHooks } from "../../hooks/useRegisterHooks";
+import { onRegisterPressed, useRegisterHooks } from "../../hooks/gate_hooks/useRegisterHooks";
 
 
 export default function RegisterButton() {

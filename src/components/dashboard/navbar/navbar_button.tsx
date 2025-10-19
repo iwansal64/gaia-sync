@@ -1,4 +1,4 @@
-import { useDashboardHooks, type TabType } from "../../../hooks/useDashboardHooks";
+import { useDashboardHooks, type TabType } from "../../../hooks/global_hooks/useDashboardHooks";
 
 export default function NavbarButtons() {
   return <>

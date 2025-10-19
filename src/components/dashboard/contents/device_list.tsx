@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAddDeviceHooks } from "../../../hooks/useAddDeviceModalHooks";
-import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/useUserDataHooks";
+import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useAddDeviceModalHooks";
+import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/user_hooks/useUserDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
-import { useDeviceListHooks } from "../../../hooks/useDeviceListHooks";
+import { useDeviceListHooks } from "../../../hooks/dashboard_hooks/useDeviceListHooks";
 
 export default function DeviceList() {
   const { devicesData } = useUserDataHooks();

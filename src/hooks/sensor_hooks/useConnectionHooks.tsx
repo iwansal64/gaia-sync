@@ -2,9 +2,9 @@ import { create } from "zustand";
 import mqtt, { type ISubscriptionGrant } from "mqtt";
 import { useEffect } from "react";
 import { useSensorDataHooks } from "./useSensorDataHooks";
-import { useUserDataHooks } from "./useUserDataHooks";
+import { useUserDataHooks } from "../user_hooks/useUserDataHooks";
 import type { ISubackPacket } from "mqtt-packet";
-import { useToastHooks } from "./useToastHooks";
+import { useToastHooks } from "../global_hooks/useToastHooks";
 
 export type UseConnectionHooksType = {
   isConnected: boolean,

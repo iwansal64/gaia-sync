@@ -1,5 +1,5 @@
 import "react";
-import { onCreateUser, useRegisterHooks } from "../../hooks/useRegisterHooks";
+import { onCreateUser, useRegisterHooks } from "../../hooks/gate_hooks/useRegisterHooks";
 
 
 export default function CreateUserButton() {
@@ -13,6 +13,6 @@ export default function CreateUserButton() {
   }
   
   return <>
-    <button onClick={handleLogin} className="border border-black w-full h-fit py-4 rounded-full mt-10 cursor-pointer active:bg-green-600 active:text-white">Login</button>
+    <button onClick={handleLogin} className="border border-black w-full h-fit py-4 rounded-full mt-10 cursor-pointer active:bg-green-600 active:text-white">Create!</button>
   </>;
 }

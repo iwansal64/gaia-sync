@@ -1,5 +1,5 @@
 import "react";
-import { useLoginHooks } from "../../hooks/useLoginHooks";
+import { useLoginHooks } from "../../hooks/gate_hooks/useLoginHooks";
 
 export default function LoginForm() {
   const { setUsername, setPassword } = useLoginHooks();

@@ -1,4 +1,4 @@
-import { useDashboardHooks } from "../../../hooks/useDashboardHooks";
+import { useDashboardHooks } from "../../../hooks/global_hooks/useDashboardHooks";
 import AIAssistance from "./ai_assistance";
 import DeviceList from "./device_list";
 import Settings from "./settings";

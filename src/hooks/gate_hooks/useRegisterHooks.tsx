@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { API, CreateUserResponseEnum, LoginResponseEnum, VerifyResponseEnum } from "../utils/api_interface";
-import { useToastHooks } from "./useToastHooks";
+import { API, CreateUserResponseEnum, LoginResponseEnum, VerifyResponseEnum } from "../../utils/api_interface";
+import { useToastHooks } from "../global_hooks/useToastHooks";
 
 
 export type registerHooksType = {

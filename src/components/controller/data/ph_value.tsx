@@ -1,4 +1,4 @@
-import { useSensorDataHooks } from "../../../hooks/useSensorDataHooks";
+import { useSensorDataHooks } from "../../../hooks/sensor_hooks/useSensorDataHooks";
 
 export default function PHValue() {
   const { ph } = useSensorDataHooks();
