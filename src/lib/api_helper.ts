@@ -100,10 +100,10 @@ type SensorData = {
   },
   timestamp: {
       "$date": {
-          "$numberLong": number
+          "$numberLong": string
       }
   },
-  data: number
+  data: string
 };
 
 type IndexedSensorData = {
@@ -125,8 +125,74 @@ export async function get_sensors_data(device_id: string): Promise<IndexedSensor
   );
   if(!response.ok) return null;
 
-  const result = await response.json();
+  const result = (await response.json())["data"];
   return result as IndexedSensorData;
+}
+
+type SensorDataSimple = {
+  [topic: string]: {
+    timestamp: Date,
+    value: number
+  }[]
+};
+
+export async function get_sensors_data_simple(device_id: string): Promise<SensorDataSimple | null> {
+  const indexed_sensors_data = await get_sensors_data(device_id);
+  if(!indexed_sensors_data) return null;
+
+  const result: SensorDataSimple = {};
+  Object.keys(indexed_sensors_data).forEach(key => {
+    const sensors_data = indexed_sensors_data[key];
+    result[key] = [];
+    sensors_data.forEach(sensor_data => {
+      result[key].push({
+        timestamp: new Date(Number.parseInt(sensor_data.timestamp.$date.$numberLong)),
+        value: Number.parseFloat(sensor_data.data)
+      });
+    })
+  });
+
+  return result;
+}
+
+export async function get_sensors_data_hourly_simple(device_id: string): Promise<SensorDataSimple | null> {
+  const sensors_data_simple = await get_sensors_data_simple(device_id);
+  if(!sensors_data_simple) return null;
+
+  const result: SensorDataSimple = {};
+
+  // Iterate for data in each topics
+  Object.keys(sensors_data_simple).forEach(key => {
+    // Get the sensors data for that topic
+    const sensors_data = sensors_data_simple[key];
+    
+    // Prepare data to be filled in the next iteration
+    result[key] = [];
+
+    // Used for tracking time (in order to know is it already pass an hour)
+    let last_data_date = 0;
+
+    // Iterate for each sensor data inside that topic
+    sensors_data.forEach(sensor_data => {
+      // Get current date
+      const current_data_date = sensor_data.timestamp;
+      
+      // If it's already more than hour
+      if(current_data_date.valueOf() > last_data_date + (1000 * 60 * 60)) {
+
+        // Push the data
+        result[key].push({
+          timestamp: current_data_date,
+          value: sensor_data.value
+        });
+
+        // Update the last data date in order to wait for data in the next hour from current data date
+        last_data_date = current_data_date.valueOf();
+      }
+    })
+  });
+
+  return result;
 }
 
 

@@ -1,6 +1,12 @@
 import type { APIContext } from "astro";
-import { create_response, get_sensors_data } from "../../../lib/api_helper";
+import { create_response, get_sensors_data_hourly_simple } from "../../../lib/api_helper";
 import z from "zod";
+import { GoogleGenAI } from "@google/genai";
+
+const gemini_ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY
+});
+
 
 const PostType = z.object({
       device_id: z.string()
@@ -34,11 +40,15 @@ export async function POST({ cookies, request }: APIContext) {
 
 
       // Gather data
-      const sensors_data = await get_sensors_data(device_id);
+      const sensors_data = await get_sensors_data_hourly_simple(device_id);
       if(!sensors_data) return create_response({ status: 500 });
 
 
-      // 
+      /// [NEXT THING TO DO] Run the Generative AI
+      // const ai_response = gemini_ai.models.generateContent({
+      //       model: "gemini-2.5-flash",
+      //       contents: ""
+      // })
 
       return create_response({ status: 200, body: { pass: "OK" } });
 }
