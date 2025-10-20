@@ -63,7 +63,10 @@ export default function UseConnectionHooksEffect() {
 
   useEffect(() => {
     console.log("Checking Data..")
-    if(!userId || !accessToken || !deviceId) return;
+    if(!userId || !accessToken || !deviceId) {
+      window.location.href = "/gate/logout";
+      return;
+    };
     console.log("Connecting..")
 
     
@@ -90,7 +93,9 @@ export default function UseConnectionHooksEffect() {
 
     mqttClient.on("error", (err) => {
       console.error("[MQTT] There's an error");
-      console.error(err.message);
+      if (err.message === "Connection refused: Not authorized") {
+        window.location.href = "/";
+      }
     })
 
     mqttClient.on("message", (topic, buf) => {

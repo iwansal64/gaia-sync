@@ -1,6 +1,7 @@
 import "react";
 import { onLoginPressed, useLoginHooks } from "../../hooks/gate_hooks/useLoginHooks";
 import { useUserDataHooks } from "../../hooks/user_hooks/useUserDataHooks";
+import { resetAllStorageState } from "../../utils/state_manager";
 
 
 export default function LoginButton() {
@@ -10,6 +11,7 @@ export default function LoginButton() {
   const handleLogin = async () => {
     const result = await onLoginPressed(username, password);
     if(result) {
+      resetAllStorageState();
       setUserId(result["id"]);
       setDeviceId(result["device_token"]);
       setAccessToken(result["access_token"]);

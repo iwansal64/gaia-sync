@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export type TabType = "device_list" | 
-                      "ai_assistance" | 
+                      "ai_reports" | 
                       "settings";
 
 type useDashboardHooksType = {

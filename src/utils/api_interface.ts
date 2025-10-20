@@ -1,5 +1,5 @@
 import z from "zod";
-import { AccessedModelDevice, type AccessedModelDeviceType } from "../lib/model";
+import { AccessedModelAIReport, AccessedModelDevice, type AccessedModelAIReportType, type AccessedModelDeviceType } from "../lib/model";
 
 const api_url: string = "/api";
 
@@ -73,7 +73,7 @@ export class API {
     return response.ok;
   }
 
-  static async is_authorized(): Promise<boolean> {
+  static async is_authorized(): Promise<[boolean, string | undefined]> {
     //? Send post request
     const response = await send_api_request({
       endpoint: "/user/check_authorized",
@@ -81,7 +81,7 @@ export class API {
     });
 
     //? Return the response
-    return response.ok;
+    return [response.ok, (await response.json())["access_token"]];
   }
 
   static async register(email: string): Promise<boolean> {
@@ -156,7 +156,7 @@ export class API {
         return null;
       }
 
-      return devices_data;
+      return safe_device_data.data;
     }
 
     return null;
@@ -179,5 +179,32 @@ export class API {
       case 404: return ConnectDeviceResponseEnum.NotFound;
       default: return ConnectDeviceResponseEnum.Error;
     }
+  }
+
+  static async get_ai_reports(): Promise<AccessedModelAIReportType[] | null> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/ai/reports",
+      method: "GET"
+    });
+    
+    //? Check the respose
+    if (response.ok) {
+      const reports_data = (await response.json())["reports_data"];
+      if(reports_data == undefined) {
+        return null;
+      }
+
+      const safe_report_data = z.array(AccessedModelAIReport).safeParse(reports_data);
+      
+      if(!safe_report_data.success) {
+        console.error(safe_report_data.error);
+        return null;
+      }
+
+      return safe_report_data.data;
+    }
+
+    return null;
   }
 }

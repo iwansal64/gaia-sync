@@ -4,7 +4,7 @@ export default function NavbarButtons() {
   return <>
     <div className="flex flex-col w-full mt-4">
       <NavbarButton  tab_name="Device List" tab_type="device_list" />
-      <NavbarButton  tab_name="AI Assistance" tab_type="ai_assistance" />
+      <NavbarButton  tab_name="AI Reports" tab_type="ai_reports" />
       <NavbarButton  tab_name="Settings" tab_type="settings" />
     </div>
   </>;

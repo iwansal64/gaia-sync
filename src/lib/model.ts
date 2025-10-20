@@ -9,7 +9,7 @@ export const AccessedModelUser = z.object({
 
 export type AccessedModelUserType = z.infer<typeof AccessedModelUser>;
 
-export const  AccessedModelDevice = z.object({
+export const AccessedModelDevice = z.object({
   created_at: z.string(),
   id: z.string(),
   device_name: z.string(),
@@ -19,3 +19,14 @@ export const  AccessedModelDevice = z.object({
 });
 
 export type AccessedModelDeviceType = z.infer<typeof AccessedModelDevice>;
+
+export const AccessedModelAIReport = z.object({
+  created_at: z.string(),
+  id: z.string(),
+  title: z.string(),
+  suggestions: z.string(),
+  fact: z.string(),
+  device_id: z.string(),
+});
+
+export type AccessedModelAIReportType = z.infer<typeof AccessedModelAIReport>;

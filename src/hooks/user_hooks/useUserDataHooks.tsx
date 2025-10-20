@@ -4,6 +4,9 @@ import { type AccessedModelDeviceType } from '../../lib/model';
 import { useEffect } from "react";
 import { API } from "../../utils/api_interface";
 
+type IndexedDevicesDataType = {
+  [key: string]: AccessedModelDeviceType
+};
 
 type UseUserDataType = {
   userId?: string,
@@ -14,6 +17,8 @@ type UseUserDataType = {
 
   devicesData?: AccessedModelDeviceType[],
   setDevicesData: (newDevicesData: AccessedModelDeviceType[]) => void
+
+  indexedDevicesData?: IndexedDevicesDataType,
 
   accessToken?: string,
   setAccessToken: (newAccessToken: string) => void,
@@ -54,10 +59,19 @@ export const useUserDataHooks = create<UseUserDataType>()(
 
       devicesData: undefined,
       setDevicesData(newDevicesData) {
+        let indexedDevicesDataValue: IndexedDevicesDataType = {};
+
+        newDevicesData.forEach((deviceData) => {
+          indexedDevicesDataValue[deviceData.id] = deviceData;
+        });
+        
         set(() => ({
-          devicesData: newDevicesData
+          devicesData: newDevicesData,
+          indexedDevicesData: indexedDevicesDataValue
         }));
       },
+
+      indexedDevicesData: {},
     }),
     {
       name: "gaia-connection-data",
@@ -65,10 +79,16 @@ export const useUserDataHooks = create<UseUserDataType>()(
     }
 ))
 
+let initialized = false;
+
 export default function UseUserDataHooksEffect() {
   const { setDevicesData } = useUserDataHooks();
 
-  useEffect(() => {
+  const initialize = async () => {
+    await useUserDataHooks.persist.rehydrate();
+    if(useUserDataHooks.getState().devicesData !== undefined) return;
+    
+
     API.get_devices().then((data) => {
       // If the data empty or there's an error
       if(!data) return;
@@ -76,6 +96,13 @@ export default function UseUserDataHooksEffect() {
       // Update devices data
       setDevicesData(data);
     });
+    
+    initialized = true;
+  }
+  
+
+  useEffect(() => {
+    if(!initialized) initialize();
   }, []);
   
   return <></>;

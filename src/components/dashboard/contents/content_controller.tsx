@@ -1,5 +1,5 @@
 import { useDashboardHooks } from "../../../hooks/global_hooks/useDashboardHooks";
-import AIAssistance from "./ai_assistance";
+import AIReports from "./ai_reports";
 import DeviceList from "./device_list";
 import Settings from "./settings";
 
@@ -11,8 +11,8 @@ export default function ContentController() {
     case "device_list":
       return <DeviceList />
     
-    case "ai_assistance":
-      return <AIAssistance />
+    case "ai_reports":
+      return <AIReports />
 
     case "settings":
       return <Settings />
