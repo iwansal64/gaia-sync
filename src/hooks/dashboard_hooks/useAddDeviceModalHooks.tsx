@@ -6,7 +6,10 @@ type useAddDeviceHooksType = {
   hideConnectDeviceModal: () => void,
 
   connectDeviceId: string,
-  setConnectDeviceId: (newAddDeviceId: string) => void
+  setConnectDeviceId: (newAddDeviceId: string) => void,
+
+  isAddingDevice: boolean,
+  setIsAddingDevice: (newState: boolean) => void
 };
 
 export const useAddDeviceHooks = create<useAddDeviceHooksType>((set) => ({
@@ -27,6 +30,13 @@ export const useAddDeviceHooks = create<useAddDeviceHooksType>((set) => ({
     set(() => ({
       connectDeviceId: newAddDeviceId
     }));
+  },
+
+  isAddingDevice: false,
+  setIsAddingDevice(newState) {
+      set(() => ({
+        isAddingDevice: newState
+      }));
   },
 }));
 

@@ -6,10 +6,13 @@ import { API, ConnectDeviceResponseEnum } from "../../../utils/api_interface";
 
 export default function ConnectDeviceModal() {
   const { userId } = useUserDataHooks();
-  const { connectDeviceModalState, hideConnectDeviceModal, connectDeviceId, setConnectDeviceId } = useAddDeviceHooks();
+  const { connectDeviceModalState, hideConnectDeviceModal, connectDeviceId, setConnectDeviceId, isAddingDevice, setIsAddingDevice } = useAddDeviceHooks();
   const { showMessage } = useToastHooks();
 
   const onConnectDevice = async () => {
+    if(isAddingDevice) return;
+    setIsAddingDevice(true);
+    
     const result = await API.connect_device(connectDeviceId);
     if(result == ConnectDeviceResponseEnum.Authorized) {
       showMessage({
@@ -38,6 +41,8 @@ export default function ConnectDeviceModal() {
         timeout: 4000
       });
     }
+
+    setIsAddingDevice(false);
   }
 
   return <>
@@ -48,7 +53,7 @@ export default function ConnectDeviceModal() {
           <h1 className="font-bold text-center w-full text-xl">Add Device</h1>
         </div>
         <input type="text" className="p-4 outline-none bg-gray-500 text-white!" placeholder="Device ID" value={connectDeviceId} onChange={(e) => setConnectDeviceId(e.target.value)} />
-        <button className="px-4 py-2 rounded-full bg-gray-500 text-white text-sm font-thin cursor-pointer hover:brightness-110" onClick={onConnectDevice}>Connect Device!</button>
+        <button className={`px-4 py-2 rounded-full bg-gray-500 text-white text-sm font-thin cursor-pointer hover:brightness-110 ${isAddingDevice && "opacity-50 pointer-events-none"}`} onClick={onConnectDevice}>Connect Device!</button>
         <div className="w-full h-fit mt-6">
           <h1 className="font-bold w-full text-center text-lg">Intruction for adding new device</h1>
           <div className="px-4 mt-4">

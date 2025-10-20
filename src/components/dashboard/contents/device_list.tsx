@@ -6,7 +6,7 @@ import { useDeviceListHooks } from "../../../hooks/dashboard_hooks/useDeviceList
 
 export default function DeviceList() {
   const { devicesData } = useUserDataHooks();
-  const { showConnectDeviceModal } = useAddDeviceHooks();
+  const { showConnectDeviceModal, isAddingDevice } = useAddDeviceHooks();
   const { setDeviceSearchKeyword, deviceSearchKeyword } = useDeviceListHooks();
 
   return <>
