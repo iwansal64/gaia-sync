@@ -1,7 +1,7 @@
 import { defineMiddleware } from "astro/middleware";
 import { create_response, get_user_data_from_cookies } from "./lib/api_helper";
 
-const allowed_pathnames: string[] = ["/api/user/login", "/api/user/register", "/api/user/verify", "/api/user/create"];
+const allowed_pathnames: string[] = ["/api/user/login", "/api/user/register", "/api/user/verify", "/api/user/create", "/api/ai/create"];
 
 export const onRequest = defineMiddleware(async ({ request, cookies, url }, next) => {
   console.log(`[${new Date().toISOString()}] ${request.method} ${url}`);

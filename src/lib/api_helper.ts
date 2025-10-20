@@ -88,6 +88,48 @@ export async function is_email_domain_valid(email: string) {
 }
 
 
+
+// Requets Handler
+
+type SensorData = {
+  _id: {
+      "$oid": string
+  },
+  metadata: {
+      device_id: string
+  },
+  timestamp: {
+      "$date": {
+          "$numberLong": number
+      }
+  },
+  data: number
+};
+
+type IndexedSensorData = {
+  [topic: string]: SensorData[]
+};
+
+export async function get_sensors_data(device_id: string): Promise<IndexedSensorData | null> {
+  const response = await fetch(
+    "http://localhost:8091/sensor/get",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "device_id": device_id
+      })
+    }
+  );
+  if(!response.ok) return null;
+
+  const result = await response.json();
+  return result as IndexedSensorData;
+}
+
+
 // Model Helper
 export const used_device_data_props: {
   [key in keyof Partial<devices>]: boolean
