@@ -8,6 +8,9 @@ import { DATA_EXPIRATION_TIME } from "../../utils/state_manager";
 export type AIReportsHooksType = {
       aiReports?: AccessedModelAIReportType[];
       setAIReports: (newAiReports: AccessedModelAIReportType[]) => void;
+
+      aiReportKeyword: string;
+      setAIReportKeyword: (newKeyword: string) => void;
 };
 
 export const useAIReportsHook = create<AIReportsHooksType>()(
@@ -21,13 +24,20 @@ export const useAIReportsHook = create<AIReportsHooksType>()(
 
                         sessionStorage.setItem("reports-timestamp", new Date().toString());
                   },
+
+                  aiReportKeyword: "",
+                  setAIReportKeyword(newKeyword) {
+                        set(() => ({
+                              aiReportKeyword: newKeyword
+                        }));
+                  },
             }),
             {
                   name: "gaia-reports-data",
                   storage: createJSONStorage(() => sessionStorage),
                   merge(persistedState, currentState) {
                         let result: Partial<AIReportsHooksType> = {};
-                        
+
                         const reportTimestamp: string | null = sessionStorage.getItem("report-timestamp");
                         const reportTimestampDate: Date | null = reportTimestamp ? new Date(reportTimestamp) : null;
 
@@ -35,19 +45,19 @@ export const useAIReportsHook = create<AIReportsHooksType>()(
                         if (!reportTimestampDate || reportTimestampDate.valueOf() - Date.now().valueOf() > DATA_EXPIRATION_TIME) {
                               // Remove session timestamp data
                               sessionStorage.removeItem("report-timestamp");
-                              
+
                               // Reset the AI reports data
                               result = {
                                     ...currentState,
                                     ...(persistedState as any),
                                     ...result,
-                                    aiReports: currentState.aiReports
+                                    aiReports: currentState.aiReports,
                               };
                         }
 
                         return {
                               ...currentState,
-                              ...result
+                              ...result,
                         };
                   },
             }

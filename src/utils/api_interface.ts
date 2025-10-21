@@ -81,7 +81,11 @@ export class API {
     });
 
     //? Return the response
-    return [response.ok, (await response.json())["access_token"]];
+    if(response.ok) {
+      return [true, (await response.json())["access_token"]];
+    }
+
+    return [false, undefined];
   }
 
   static async register(email: string): Promise<boolean> {

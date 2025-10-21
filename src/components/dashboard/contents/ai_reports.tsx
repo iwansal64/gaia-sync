@@ -3,7 +3,7 @@ import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/user_ho
 import { dateFormat } from "../../../utils/date_formatting";
 
 export default function AIReports() {
-      const { aiReports } = useAIReportsHook();
+      const { aiReports, aiReportKeyword, setAIReportKeyword } = useAIReportsHook();
       const { indexedDevicesData } = useUserDataHooks();
       
       return (
@@ -11,15 +11,13 @@ export default function AIReports() {
                   <UseUserDataHooksEffect />
                   <UseAIReportHooksEffect />
                   <div className="w-full h-full bg-gray-200">
-                        <div className="w-full h-full flex flex-col">
-                              <div className="w-full h-fit px-2 bg-gray-400 flex flex-row">
-                                    <input type="text" className="px-6 py-6 outline-none w-full" placeholder="Search for device log title" />
-                              </div>
-                              <div className="w-full h-full p-10">
+                        <div className="w-full h-full flex flex-col p-4">
+                              <input id="device-search-keyword" type="text" className="bg-gray-400 px-6 py-3 outline-none w-full rounded-full" placeholder="Search for device name" onChange={(e) => setAIReportKeyword(e.target.value.toLowerCase())} />
+                              <div className="w-full h-full mt-6 overflow-auto">
                                     <div className="w-full h-full rounded-2xl">
                                           {/* Tables */}
-                                          <div className="grid auto-rows-[50px] grid-flow-rows">
-                                                <div className="grid grid-cols-[70px_1fr_0.5fr_0.5fr] *:w-full *:h-full *:flex *:items-center border-b-1">
+                                          <div className="flex flex-col gap-2 md:grid md:auto-rows-[50px] md:grid-flow-rows">
+                                                <div className="hidden md:grid grid-cols-[70px_1fr_0.5fr_0.5fr] *:w-full *:h-full *:flex *:items-center border-b-1">
                                                       <div className="cursor-pointer hover:bg-gray-300 pl-2">No.</div>
                                                       <div className="cursor-pointer hover:bg-gray-300 pl-2">Report Title</div>
                                                       <div className="cursor-pointer hover:bg-gray-300 pl-2">Device</div>
@@ -28,19 +26,30 @@ export default function AIReports() {
                                                 {
                                                       (() => {
                                                             // If the there's no devices data
-                                                            if(!indexedDevicesData || Object.keys(indexedDevicesData).length == 0) return <></>;
+                                                            if(!indexedDevicesData || Object.keys(indexedDevicesData).length == 0 || !aiReports) return <></>;
 
-                                                            return aiReports?.map(
-                                                                  (reportData, index) => (
-                                                                        <ReportEntry 
+                                                            const result = aiReports.flatMap(
+                                                                  (reportData, index) => {
+                                                                        if(!reportData.title.toLowerCase().includes(aiReportKeyword)) return [];
+
+                                                                        return [<ReportEntry 
                                                                               title={reportData.title}
                                                                               device_name={indexedDevicesData[reportData.device_id].device_name}
                                                                               date={new Date(reportData.created_at)}
                                                                               index={index}
                                                                               key={index}
-                                                                        />
-                                                                  )
-                                                            )
+                                                                        />];
+                                                                  }
+                                                            );
+
+                                                            if(aiReports.length == 0) {
+                                                                  return <p className="opacity-50">There's no reports for your devices</p>
+                                                            }
+                                                            else if(result.length == 0) {
+                                                                  return <p className="opacity-50">There's no reports matches your search keyword</p>
+                                                            }
+
+                                                            return result;
                                                       })()
                                                 }
                                           </div>
@@ -60,15 +69,18 @@ interface ReportEntryProps {
 }
 
 function ReportEntry(props: ReportEntryProps) {
+      const formattedDate = dateFormat(props.date);
+      
       const handleClick = () => {
             
       };
 
       return (
             <>
-                  <div className="grid grid-cols-[70px_1fr_0.5fr_0.5fr] *:w-full *:h-full *:flex *:items-center *:pl-2 cursor-pointer hover:bg-gray-300" onClick={handleClick}>
+                  {/* Laptop View */}
+                  <div className="hidden md:grid grid-cols-[70px_1fr_0.5fr_0.5fr] *:w-full *:h-full *:flex *:items-center *:pl-2 cursor-pointer hover:bg-gray-300" onClick={handleClick}>
                         <div>
-                              <p>{props.index}</p>
+                              <p>{props.index+1}</p>
                         </div>
                         <div>
                               <p className="truncate">{props.title}</p>
@@ -77,8 +89,15 @@ function ReportEntry(props: ReportEntryProps) {
                               <p>{props.device_name}</p>
                         </div>
                         <div>
-                              <p>{dateFormat(props.date)}</p>
+                              <p>{formattedDate}</p>
                         </div>
+                  </div>
+                  
+                  {/* Mobile View */}
+                  <div className="flex md:hidden flex-col gap-2 w-full p-6 bg-gray-400 rounded-2xl">
+                        <h1>{props.title}</h1>
+                        <p>{props.device_name}</p>
+                        <p>{(formattedDate)}</p>
                   </div>
             </>
       );
