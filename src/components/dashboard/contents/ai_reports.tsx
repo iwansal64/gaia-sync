@@ -19,7 +19,7 @@ export default function AIReports() {
                                     <div className="w-full h-full rounded-2xl">
                                           {/* Tables */}
                                           <div className="grid auto-rows-[50px] grid-flow-rows">
-                                                <div className="grid grid-cols-[0.25fr_1fr_1fr_1fr] *:w-full *:h-full *:flex *:items-center border-b-1">
+                                                <div className="grid grid-cols-[70px_1fr_0.5fr_0.5fr] *:w-full *:h-full *:flex *:items-center border-b-1">
                                                       <div className="cursor-pointer hover:bg-gray-300 pl-2">No.</div>
                                                       <div className="cursor-pointer hover:bg-gray-300 pl-2">Report Title</div>
                                                       <div className="cursor-pointer hover:bg-gray-300 pl-2">Device</div>
@@ -66,11 +66,19 @@ function ReportEntry(props: ReportEntryProps) {
 
       return (
             <>
-                  <div className="grid grid-cols-[0.25fr_1fr_1fr_1fr] *:w-full *:h-full *:flex *:justify-center *:items-center cursor-pointer hover:bg-gray-300" onClick={handleClick}>
-                        <p>{props.index}</p>
-                        <p>{props.title}</p>
-                        <p>{props.device_name}</p>
-                        <p>{dateFormat(props.date)}</p>
+                  <div className="grid grid-cols-[70px_1fr_0.5fr_0.5fr] *:w-full *:h-full *:flex *:items-center *:pl-2 cursor-pointer hover:bg-gray-300" onClick={handleClick}>
+                        <div>
+                              <p>{props.index}</p>
+                        </div>
+                        <div>
+                              <p className="truncate">{props.title}</p>
+                        </div>
+                        <div>
+                              <p>{props.device_name}</p>
+                        </div>
+                        <div>
+                              <p>{dateFormat(props.date)}</p>
+                        </div>
                   </div>
             </>
       );
