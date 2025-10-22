@@ -1,14 +1,14 @@
 import UseAIReportHooksEffect, { useAIReportsHook } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
-import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/user_hooks/useUserDataHooks";
+import UseDeviceDataHooksEffect, { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 
 export default function AIReports() {
       const { aiReports, aiReportKeyword, setAIReportKeyword } = useAIReportsHook();
-      const { indexedDevicesData } = useUserDataHooks();
+      const { indexedDevicesData } = useDeviceDataHooks();
       
       return (
             <>
-                  <UseUserDataHooksEffect />
+                  <UseDeviceDataHooksEffect />
                   <UseAIReportHooksEffect />
                   <div className="w-full h-full bg-gray-200">
                         <div className="w-full h-full flex flex-col p-4">

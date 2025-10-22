@@ -1,16 +1,15 @@
-import { useEffect } from "react";
 import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useDashboardAddDeviceHooks";
-import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/user_hooks/useUserDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 import { useDeviceListHooks } from "../../../hooks/dashboard_hooks/useDeviceListHooks";
+import UseDeviceDataHooksEffect, { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
 
 export default function DeviceList() {
-  const { devicesData } = useUserDataHooks();
-  const { showConnectDeviceModal, isAddingDevice } = useAddDeviceHooks();
+  const { devicesData } = useDeviceDataHooks();
+  const { showConnectDeviceModal } = useAddDeviceHooks();
   const { setDeviceSearchKeyword, deviceSearchKeyword } = useDeviceListHooks();
 
   return <>
-    <UseUserDataHooksEffect />
+    <UseDeviceDataHooksEffect />
     <div className="w-full h-full flex flex-col">
       <div className="w-full h-fit p-4 flex flex-col gap-2">
         <input id="device-search-keyword" type="text" className="bg-gray-400 px-6 py-3 outline-none w-full rounded-full" placeholder="Search for device name" value={deviceSearchKeyword} onChange={(e) => setDeviceSearchKeyword(e.target.value.toLowerCase())} />
@@ -33,7 +32,7 @@ interface DeviceCardProps {
 }
 
 function DeviceCard(props: DeviceCardProps) {
-  const { setDeviceId } = useUserDataHooks();
+  const { setDeviceId } = useDeviceDataHooks();
   const handleClick = () => {
     setDeviceId(props.device_id);
     window.location.href = `/monitor/`;

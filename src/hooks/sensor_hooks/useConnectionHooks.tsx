@@ -5,6 +5,7 @@ import { useSensorDataHooks } from "./useSensorDataHooks";
 import { useUserDataHooks } from "../user_hooks/useUserDataHooks";
 import type { ISubackPacket } from "mqtt-packet";
 import { useToastHooks } from "../global_hooks/useToastHooks";
+import { useDeviceDataHooks } from "../device_hooks/useDeviceDataHooks";
 
 export type UseConnectionHooksType = {
   isConnected: boolean,
@@ -57,7 +58,8 @@ function onSubscribeCallback(showMessage: toastShowMessageFunction, err: Error |
 
 export default function UseConnectionHooksEffect() {
   const { setIsConnected } = useConnectionHooks();
-  const { accessToken, userId, deviceId } = useUserDataHooks();
+  const { accessToken, userId } = useUserDataHooks();
+  const { deviceId } = useDeviceDataHooks();
   const { setData } = useSensorDataHooks();
   const { showMessage } = useToastHooks();
 
