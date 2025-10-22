@@ -5,9 +5,11 @@ import UseReportHooksEffect from "../../hooks/reports_hooks/useReportHooksEffect
 import ReportTitleSection from "../../components/report/report_title_section";
 import ReportFactSection from "../../components/report/report_fact_section";
 import ReportSuggestionsSection from "../../components/report/report_suggestions_section"
+import LoginRequired from "../../components/global/login_required";
 ---
 
 <BaseLayout>
+      <LoginRequired client:only />
       <UseReportHooksEffect client:load />
       <ReportNavbar />
       <ReportTitleSection client:load />

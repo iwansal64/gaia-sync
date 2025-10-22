@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "../../layout/base-layout.astro"
 import Monitor from "../../components/controller/monitor.astro";
+import LoginRequired from "../../components/global/login_required";
 
 ---
 
 <BaseLayout>
+	<LoginRequired client:only />
 	<Monitor />
 </BaseLayout>
