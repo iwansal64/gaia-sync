@@ -4,6 +4,7 @@ import ReportNavbar from "../../components/report/report_navbar.astro";
 import UseReportHooksEffect from "../../hooks/reports_hooks/useReportHooksEffect";
 import ReportTitleSection from "../../components/report/report_title_section";
 import ReportFactSection from "../../components/report/report_fact_section";
+import ReportSuggestionsSection from "../../components/report/report_suggestions_section"
 ---
 
 <BaseLayout>
@@ -11,6 +12,7 @@ import ReportFactSection from "../../components/report/report_fact_section";
       <ReportNavbar />
       <ReportTitleSection client:load />
       <ReportFactSection client:load />
+      <ReportSuggestionsSection client:load />
 </BaseLayout>
 
 <style is:global>
