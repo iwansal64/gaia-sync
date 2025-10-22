@@ -2,9 +2,19 @@
 import BaseLayout from "../../layout/base-layout.astro";
 import ReportNavbar from "../../components/report/report_navbar.astro";
 import UseReportHooksEffect from "../../hooks/reports_hooks/useReportHooksEffect";
+import ReportTitleSection from "../../components/report/report_title_section";
+import ReportFactSection from "../../components/report/report_fact_section";
 ---
 
 <BaseLayout>
       <UseReportHooksEffect client:load />
       <ReportNavbar />
+      <ReportTitleSection client:load />
+      <ReportFactSection client:load />
 </BaseLayout>
+
+<style is:global>
+      body {
+            background-color: #4a5565;
+      }
+</style>
