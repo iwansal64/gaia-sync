@@ -1,9 +1,9 @@
-import UseAIReportHooksEffect, { useAIReportsHook } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
+import UseAIReportHooksEffect, { useDashboardReportsHooks } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
 import UseDeviceDataHooksEffect, { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 
 export default function AIReports() {
-      const { aiReports, aiReportKeyword, setAIReportKeyword } = useAIReportsHook();
+      const { aiReports, aiReportKeyword, setAIReportKeyword } = useDashboardReportsHooks();
       const { indexedDevicesData } = useDeviceDataHooks();
       
       return (

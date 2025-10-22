@@ -13,7 +13,7 @@ export type AIReportsHooksType = {
       setAIReportKeyword: (newKeyword: string) => void;
 };
 
-export const useAIReportsHook = create<AIReportsHooksType>()(
+export const useDashboardReportsHooks = create<AIReportsHooksType>()(
       persist(
             (set) => ({
                   aiReports: undefined,
@@ -67,11 +67,11 @@ export const useAIReportsHook = create<AIReportsHooksType>()(
 let initialized = false;
 
 export default function UseAIReportHooksEffect() {
-      const { setAIReports } = useAIReportsHook();
+      const { setAIReports } = useDashboardReportsHooks();
 
       const initialize = async () => {
-            await useAIReportsHook.persist.rehydrate();
-            if (useAIReportsHook.getState().aiReports !== undefined) return;
+            await useDashboardReportsHooks.persist.rehydrate();
+            if (useDashboardReportsHooks.getState().aiReports !== undefined) return;
 
             API.get_ai_reports().then((ai_reports_data) => {
                   if (ai_reports_data) setAIReports(ai_reports_data);
