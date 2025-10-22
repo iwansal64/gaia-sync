@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { create_response, generate_id, get_sensors_data_hourly_simple } from "../../../lib/api_helper";
+import { create_response, generate_long_id, get_sensors_data_hourly_simple } from "../../../lib/api_helper";
 import z from "zod";
 import { GoogleGenAI } from "@google/genai";
 import { prisma } from "../../../lib/db";
@@ -16,15 +16,6 @@ const PostType = z.object({
 });
 
 export async function POST({ cookies, request }: APIContext) {
-      const gemini_ai = new GoogleGenAI({
-            apiKey: import.meta.env.GEMINI_API_KEY
-      });
-      
-      // Get the report key value
-      const ai_report_cookie = cookies.get(import.meta.env.AI_REPORT_GENERATOR_KEY)?.value;
-      if (!ai_report_cookie) create_response({ status: 401 });
-      if (ai_report_cookie !== import.meta.env.AI_REPORT_GENERATOR_VALUE) return create_response({ status: 401 });
-
       // Get the required body data
       const body = await (async () => {
             try {
@@ -45,6 +36,16 @@ export async function POST({ cookies, request }: APIContext) {
 
       const target_device_id = result.data.device_id;
 
+      // Create Gemini AI instance
+      const gemini_ai = new GoogleGenAI({
+            apiKey: import.meta.env.GEMINI_API_KEY
+      });
+      
+      // Get the report key value
+      const ai_report_cookie = cookies.get(import.meta.env.AI_REPORT_GENERATOR_KEY)?.value;
+      if (!ai_report_cookie) create_response({ status: 401 });
+      if (ai_report_cookie !== import.meta.env.AI_REPORT_GENERATOR_VALUE) return create_response({ status: 401 });
+
       // Verify device id
       const device_data = await prisma.devices.findUnique({
             where: {
@@ -58,10 +59,10 @@ export async function POST({ cookies, request }: APIContext) {
       // Gather data
       const sensors_data = await get_sensors_data_hourly_simple(target_device_id);
       if(!sensors_data) return create_response({ status: 500 });
-      const base64_sensors_data = Buffer.from(JSON.stringify(sensors_data)).toString("base64");
 
       // Run the Generative AI
       console.log("AI START PROCESSING..");
+      const before_ai_process_time = Date.now();
       const ai_response = await gemini_ai.models.generateContent({
             model: "gemini-2.5-flash",
             config: {
@@ -92,7 +93,7 @@ You are a water quality analysis AI. Analyze the following sensor data:
 Each reading has Electrical Conductivity (EC, µS/cm), Total Dissolved Solids (TDS, ppm), pH, and Temperature (°C).
 
 Provide:
-1. Title suitable for a notification (max 50 characters)
+1. Title suitable for a notification (max 30 characters)
 2. Key suggestions to maintain water quality (seperated by a period, max 200 characters)
 3. Short factual summary about the condition of the water (max 200 characters).
 
@@ -104,7 +105,9 @@ ${JSON.stringify(sensors_data)}
                   }
             ]
       });
+      const ai_request_time_spent = Date.now() - before_ai_process_time;
       console.log("AI PROCESS DONE!");
+      
 
       if(!ai_response.text) {
             console.log(ai_response);
@@ -124,7 +127,7 @@ ${JSON.stringify(sensors_data)}
             await prisma.ai_reports.create({
                   data: {
                         title: data.title,
-                        id: generate_id(),
+                        id: generate_long_id(),
                         suggestions: data.suggestions,
                         fact: data.fact,
                         devices: {
@@ -141,5 +144,5 @@ ${JSON.stringify(sensors_data)}
       }
 
 
-      return create_response({ status: 200, body: { pass: "OK" } });
+      return create_response({ status: 200, body: { time_spent_in_secs: ai_request_time_spent / 1000 } });
 }

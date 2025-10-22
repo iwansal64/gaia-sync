@@ -1,5 +1,5 @@
 import * as cookie from "cookie";
-import { id_characters, id_length, token_characters, token_length, verfication_token_characters, verfication_token_length } from "./api_config";
+import { id_characters, id_length, long_id_length, token_characters, token_length, verfication_token_characters, verfication_token_length } from "./api_config";
 import type { devices, users } from "@prisma/client";
 import type { AstroCookies } from "astro";
 import { prisma } from "./db";
@@ -43,6 +43,11 @@ export function generate_access_token_expiration(): Date {
 export function generate_id(): string {
   const characters_length = id_characters.length;
   return (new Array<string>(id_length).fill(" ")).map(() => id_characters.charAt(Math.floor(Math.random() * characters_length))).join("");
+}
+
+export function generate_long_id(): string {
+  const characters_length = id_characters.length;
+  return (new Array<string>(long_id_length).fill(" ")).map(() => id_characters.charAt(Math.floor(Math.random() * characters_length))).join("");
 }
 
 export function generate_verification_token(): string {

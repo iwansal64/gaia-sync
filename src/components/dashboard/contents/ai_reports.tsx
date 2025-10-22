@@ -1,4 +1,4 @@
-import UseAIReportHooksEffect, { useAIReportsHook } from "../../../hooks/dashboard_hooks/useAIReportsHooks";
+import UseAIReportHooksEffect, { useAIReportsHook } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
 import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/user_hooks/useUserDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 
@@ -33,6 +33,7 @@ export default function AIReports() {
                                                                         if(!reportData.title.toLowerCase().includes(aiReportKeyword)) return [];
 
                                                                         return [<ReportEntry 
+                                                                              id={reportData.id}
                                                                               title={reportData.title}
                                                                               device_name={indexedDevicesData[reportData.device_id].device_name}
                                                                               date={new Date(reportData.created_at)}
@@ -66,13 +67,14 @@ interface ReportEntryProps {
       title: string;
       device_name: string;
       date: Date;
+      id: string;
 }
 
 function ReportEntry(props: ReportEntryProps) {
       const formattedDate = dateFormat(props.date);
       
       const handleClick = () => {
-            
+            window.location.href = "/report/" + props.id;
       };
 
       return (
@@ -94,10 +96,10 @@ function ReportEntry(props: ReportEntryProps) {
                   </div>
                   
                   {/* Mobile View */}
-                  <div className="flex md:hidden flex-col gap-2 w-full p-6 bg-gray-400 rounded-2xl">
-                        <h1>{props.title}</h1>
-                        <p>{props.device_name}</p>
-                        <p>{(formattedDate)}</p>
+                  <div className="flex md:hidden flex-col w-full p-6 bg-gray-400 rounded-2xl cursor-pointer hover:brightness-75">
+                        <p className="text-sm">{(formattedDate)}</p>
+                        <h1 className="text-xl font-semibold">{props.title}</h1>
+                        <p className="text-md mt-8 font-light">Device: <span className="">{props.device_name}</span></p>
                   </div>
             </>
       );

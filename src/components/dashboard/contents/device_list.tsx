@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useAddDeviceModalHooks";
+import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useDashboardAddDeviceHooks";
 import UseUserDataHooksEffect, { useUserDataHooks } from "../../../hooks/user_hooks/useUserDataHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 import { useDeviceListHooks } from "../../../hooks/dashboard_hooks/useDeviceListHooks";
@@ -40,7 +40,7 @@ function DeviceCard(props: DeviceCardProps) {
   }
 
   return <button className="relative text-left p-4 flex flex-col bg-gray-300 rounded-2xl cursor-pointer hover:brightness-105" onClick={handleClick}>
-    <h1>{props.device_name}</h1>
+    <h1 className="text-xl font-semibold">{props.device_name}</h1>
     {props.device_last_seen ? <p className="absolute bottom-3">{dateFormat(props.device_last_seen)}</p> : <p className="opacity-50 text-sm absolute bottom-3">Device has never online.</p>}
   </button>
 }

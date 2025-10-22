@@ -4,3 +4,4 @@ export const verfication_token_characters: string = "abcdefghijklmnopqrstuvwxyzA
 export const verfication_token_length: number = 5;
 export const id_characters: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 export const id_length: number = 5;
+export const long_id_length: number = 10;

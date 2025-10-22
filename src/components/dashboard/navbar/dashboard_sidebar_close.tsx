@@ -9,7 +9,7 @@ export default function DashboardSidebarClose() {
       }
 
       return <>
-            <button className="absolute md:hidden top-10 right-10 p-2 bg-transparent border-white border-2 rounded-full cursor-pointer" onClick={() => handleCloseSidebar()}>
+            <button className="absolute md:hidden top-13 right-10 p-2 bg-transparent border-white border-2 rounded-full cursor-pointer" onClick={() => handleCloseSidebar()}>
                   <IoClose color="white" fontSize={24} />
             </button>
       </>
