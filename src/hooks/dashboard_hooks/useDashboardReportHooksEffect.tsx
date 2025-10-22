@@ -5,11 +5,10 @@ import { useDashboardReportsHooks } from "./useDashboardReportsHooks";
 let initialized = false;
 
 export default function UseDashboardReportHooksEffect() {
-      const { setAIReports } = useDashboardReportsHooks();
+      const { aiReports, setAIReports, hasHydrated } = useDashboardReportsHooks();
 
       const initialize = async () => {
-            await useDashboardReportsHooks.persist.rehydrate();
-            if (useDashboardReportsHooks.getState().aiReports !== undefined) return;
+            if(!hasHydrated || aiReports !== undefined) return;
 
             API.get_ai_reports().then((ai_reports_data) => {
                   if (ai_reports_data) setAIReports(ai_reports_data);
@@ -20,7 +19,7 @@ export default function UseDashboardReportHooksEffect() {
 
       useEffect(() => {
             if (!initialized) initialize();
-      }, []);
+      }, [hasHydrated]);
 
       return <></>;
 }

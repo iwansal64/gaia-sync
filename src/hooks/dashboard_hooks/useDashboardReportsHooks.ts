@@ -9,6 +9,9 @@ export type AIReportsHooksType = {
 
       aiReportKeyword: string;
       setAIReportKeyword: (newKeyword: string) => void;
+
+      hasHydrated: boolean,
+      setHasHydrated: () => void;
 };
 
 export const useDashboardReportsHooks = create<AIReportsHooksType>()(
@@ -20,7 +23,7 @@ export const useDashboardReportsHooks = create<AIReportsHooksType>()(
                               aiReports: newAiReports,
                         }));
 
-                        sessionStorage.setItem("reports-timestamp", new Date().toString());
+                        sessionStorage.setItem("gaia-reports-data-timestamp", new Date().toString());
                   },
 
                   aiReportKeyword: "",
@@ -29,20 +32,32 @@ export const useDashboardReportsHooks = create<AIReportsHooksType>()(
                               aiReportKeyword: newKeyword
                         }));
                   },
+
+                  hasHydrated: false,
+                  setHasHydrated() {
+                        set(() => ({
+                              hasHydrated: true
+                        }))
+                  },
             }),
             {
                   name: "gaia-reports-data",
                   storage: createJSONStorage(() => sessionStorage),
+                  onRehydrateStorage() {
+                      return (state, error) => {
+                        if(!error) state?.setHasHydrated();
+                      }
+                  },
                   merge(persistedState, currentState) {
                         let result: Partial<AIReportsHooksType> = {};
 
-                        const reportTimestamp: string | null = sessionStorage.getItem("report-timestamp");
+                        const reportTimestamp: string | null = sessionStorage.getItem("gaia-reports-data-timestamp");
                         const reportTimestampDate: Date | null = reportTimestamp ? new Date(reportTimestamp) : null;
 
                         // If the report timestamp date is not exists or the report data expired
-                        if (!reportTimestampDate || reportTimestampDate.valueOf() - Date.now().valueOf() > DATA_EXPIRATION_TIME) {
+                        if (!reportTimestampDate || (Date.now().valueOf() - reportTimestampDate.valueOf()) > (DATA_EXPIRATION_TIME * 1000)) {
                               // Remove session timestamp data
-                              sessionStorage.removeItem("report-timestamp");
+                              sessionStorage.removeItem("gaia-reports-data-timestamp");
 
                               // Reset the AI reports data
                               result = {
@@ -55,6 +70,7 @@ export const useDashboardReportsHooks = create<AIReportsHooksType>()(
 
                         return {
                               ...currentState,
+                              ...(persistedState as any),
                               ...result,
                         };
                   },
