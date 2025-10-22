@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layout/base-layout.astro";
 import ReportNavbar from "../../components/report/report_navbar.astro";
-
-const { id } = Astro.params;
+import UseReportHooksEffect from "../../hooks/reports_hooks/useReportHooksEffect";
 ---
 
 <BaseLayout>
+      <UseReportHooksEffect client:load />
       <ReportNavbar />
 </BaseLayout>

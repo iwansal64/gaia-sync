@@ -43,7 +43,7 @@ export async function GET({ request, cookies }: APIContext) {
       return create_response({
             status: 200,
             body: {
-                  data: report_data
+                  report_data: report_data
             }
       });
 }

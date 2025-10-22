@@ -211,4 +211,31 @@ export class API {
 
     return null;
   }
+
+  static async get_ai_report(report_id: string): Promise<AccessedModelAIReportType | null> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/ai/report?report_id=" + report_id,
+      method: "GET"
+    });
+    
+    //? Check the respose
+    if (response.ok) {
+      const report_data = (await response.json())["report_data"];
+      if(report_data == undefined) {
+        return null;
+      }
+
+      const safe_report_data = AccessedModelAIReport.safeParse(report_data);
+      
+      if(!safe_report_data.success) {
+        console.error(safe_report_data.error);
+        return null;
+      }
+
+      return safe_report_data.data;
+    }
+
+    return null;
+  }
 }

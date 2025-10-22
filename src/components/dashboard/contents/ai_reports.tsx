@@ -75,11 +75,11 @@ interface ReportEntryProps {
 
 function ReportEntry(props: ReportEntryProps) {
       const formattedDate = dateFormat(props.date);
-      const { setReportData } = useReportHooks();
+      const { setBasicReportData: setReportData } = useReportHooks();
       
       const handleClick = () => {
             setReportData(props.id, props.device_name);
-            window.location.href = "/report/" + props.id;
+            window.location.href = "/report";
       };
 
       return (
