@@ -15,7 +15,7 @@ export default function AIReports() {
                   <UseDashboardReportHooksEffect />
                   <div className="w-full h-full bg-gray-200">
                         <div className="w-full h-full flex flex-col p-4">
-                              <input id="device-search-keyword" type="text" className="bg-gray-400 px-6 py-3 outline-none w-full rounded-full" placeholder="Search for device name" onChange={(e) => setAIReportKeyword(e.target.value.toLowerCase())} />
+                              <input id="device-search-keyword" type="text" className="bg-gray-400 px-6 py-3 outline-none w-full rounded-full" placeholder="Search for report by title" onChange={(e) => setAIReportKeyword(e.target.value.toLowerCase())} />
                               <div className="w-full h-full mt-6 overflow-auto">
                                     <div className="w-full h-full rounded-2xl">
                                           {/* Tables */}

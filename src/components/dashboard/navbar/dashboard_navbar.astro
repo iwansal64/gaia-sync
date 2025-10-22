@@ -1,9 +1,11 @@
 ---
+import DashboardNavbarInfo from "./dashboard_navbar_info";
 import DashboardSidebarToggle from "./dashboard_sidebar_open";
 
 
 ---
 
-<div class="w-full h-fit py-10 px-4 bg-gray-600 md:hidden">
+<div class="w-full h-fit py-10 px-4 bg-gray-600 md:hidden flex items-center justify-between">
       <DashboardSidebarToggle client:load />
+      <DashboardNavbarInfo client:load />
 </div>
