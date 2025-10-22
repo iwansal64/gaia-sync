@@ -2,6 +2,7 @@ import UseDashboardReportHooksEffect from "../../../hooks/dashboard_hooks/useDas
 import { useDashboardReportsHooks } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
 import { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
 import UseDeviceDataHooksEffect from "../../../hooks/device_hooks/useDeviceDataHooksEffect";
+import { useReportHooks } from "../../../hooks/reports_hooks/useReportHooks";
 import { dateFormat } from "../../../utils/date_formatting";
 
 export default function AIReports() {
@@ -74,8 +75,10 @@ interface ReportEntryProps {
 
 function ReportEntry(props: ReportEntryProps) {
       const formattedDate = dateFormat(props.date);
+      const { setReportData } = useReportHooks();
       
       const handleClick = () => {
+            setReportData(props.id, props.device_name);
             window.location.href = "/report/" + props.id;
       };
 
@@ -98,7 +101,7 @@ function ReportEntry(props: ReportEntryProps) {
                   </div>
                   
                   {/* Mobile View */}
-                  <div className="flex md:hidden flex-col w-full p-6 bg-gray-400 rounded-2xl cursor-pointer hover:brightness-75">
+                  <div className="flex md:hidden flex-col w-full p-6 bg-gray-400 rounded-2xl cursor-pointer hover:brightness-75" onClick={handleClick}>
                         <p className="text-sm">{(formattedDate)}</p>
                         <h1 className="text-xl font-semibold">{props.title}</h1>
                         <p className="text-md mt-8 font-light">Device: <span className="">{props.device_name}</span></p>
