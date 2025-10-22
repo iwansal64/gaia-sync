@@ -14,9 +14,3 @@ export const useDeviceListHooks = create<deviceListHookType>((set) => ({
           }));
       },
 }));
-
-
-export default function UseDeviceListHooksEffect() {
-
-      return <></>;
-}

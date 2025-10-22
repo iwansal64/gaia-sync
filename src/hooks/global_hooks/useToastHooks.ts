@@ -34,9 +34,3 @@ export const useToastHooks = create<toastHooksType>((set) => ({
     }));
   },
 }));
-
-
-export default function toastHooksEffect() {
-  return <></>;
-}
-

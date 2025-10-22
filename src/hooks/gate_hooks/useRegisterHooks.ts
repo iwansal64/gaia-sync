@@ -132,9 +132,3 @@ export async function onCreateUser(new_username: string, new_password: string): 
   
   return false;
 }
-
-
-
-export default function LoginHooksEffect() {
-  return <></>;
-}

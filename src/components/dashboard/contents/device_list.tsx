@@ -1,7 +1,8 @@
-import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useDashboardAddDeviceHooks";
+import { useAddDeviceHooks } from "../../../hooks/dashboard_hooks/useDashboardAddDeviceHook";
 import { dateFormat } from "../../../utils/date_formatting";
 import { useDeviceListHooks } from "../../../hooks/dashboard_hooks/useDeviceListHooks";
-import UseDeviceDataHooksEffect, { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
+import { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
+import UseDeviceDataHooksEffect from "../../../hooks/device_hooks/useDeviceDataHooksEffect";
 
 export default function DeviceList() {
   const { devicesData } = useDeviceDataHooks();

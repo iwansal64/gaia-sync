@@ -1,5 +1,7 @@
-import UseAIReportHooksEffect, { useDashboardReportsHooks } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
-import UseDeviceDataHooksEffect, { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
+import UseDashboardReportHooksEffect from "../../../hooks/dashboard_hooks/useDashboardReportHooksEffect";
+import { useDashboardReportsHooks } from "../../../hooks/dashboard_hooks/useDashboardReportsHooks";
+import { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
+import UseDeviceDataHooksEffect from "../../../hooks/device_hooks/useDeviceDataHooksEffect";
 import { dateFormat } from "../../../utils/date_formatting";
 
 export default function AIReports() {
@@ -9,7 +11,7 @@ export default function AIReports() {
       return (
             <>
                   <UseDeviceDataHooksEffect />
-                  <UseAIReportHooksEffect />
+                  <UseDashboardReportHooksEffect />
                   <div className="w-full h-full bg-gray-200">
                         <div className="w-full h-full flex flex-col p-4">
                               <input id="device-search-keyword" type="text" className="bg-gray-400 px-6 py-3 outline-none w-full rounded-full" placeholder="Search for device name" onChange={(e) => setAIReportKeyword(e.target.value.toLowerCase())} />

@@ -41,8 +41,4 @@ export const useUserDataHooks = create<UseUserDataType>()(
       storage: createJSONStorage(() => sessionStorage)
     }
 ))
-
-export default function UseUserDataHooksEffect() {
-  return <></>;
-}
   

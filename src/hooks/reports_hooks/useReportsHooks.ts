@@ -14,16 +14,3 @@ export const useReportsHooks = create<reportHooksType>((set) => ({
           }));
       },
 }));
-
-export default function UseReportsHooksEffect() {
-      const { currentReportId } = useReportsHooks();
-
-      useEffect(() => {
-            if(!currentReportId) return;
-
-            
-
-      }, [currentReportId]);
-      
-      return <></>;
-}

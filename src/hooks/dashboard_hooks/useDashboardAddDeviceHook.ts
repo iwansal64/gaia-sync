@@ -39,7 +39,3 @@ export const useAddDeviceHooks = create<useAddDeviceHooksType>((set) => ({
       }));
   },
 }));
-
-export default function UseAddDeviceHooksEffect() {
-  return <></>;
-}

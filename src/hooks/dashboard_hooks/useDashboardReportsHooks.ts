@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { create } from "zustand";
-import { API } from "../../utils/api_interface";
 import type { AccessedModelAIReportType } from "../../lib/model";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { DATA_EXPIRATION_TIME } from "../../utils/state_manager";
@@ -63,26 +61,3 @@ export const useDashboardReportsHooks = create<AIReportsHooksType>()(
             }
       )
 );
-
-let initialized = false;
-
-export default function UseAIReportHooksEffect() {
-      const { setAIReports } = useDashboardReportsHooks();
-
-      const initialize = async () => {
-            await useDashboardReportsHooks.persist.rehydrate();
-            if (useDashboardReportsHooks.getState().aiReports !== undefined) return;
-
-            API.get_ai_reports().then((ai_reports_data) => {
-                  if (ai_reports_data) setAIReports(ai_reports_data);
-            });
-
-            initialized = true;
-      };
-
-      useEffect(() => {
-            if (!initialized) initialize();
-      }, []);
-
-      return <></>;
-}

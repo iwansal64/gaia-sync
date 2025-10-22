@@ -55,9 +55,3 @@ export async function onLoginPressed(username: string, password: string): Promis
   
   return false;
 }
-
-
-
-export default function LoginHooksEffect() {
-  return <></>;
-}

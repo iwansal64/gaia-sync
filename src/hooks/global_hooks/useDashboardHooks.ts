@@ -19,7 +19,3 @@ export const useDashboardHooks = create<useDashboardHooksType>((set) => ({
             }));
       },
 }));
-
-export default function UseDashboardHooksEffect() {
-      return <></>;
-}
