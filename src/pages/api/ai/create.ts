@@ -35,11 +35,6 @@ export async function POST({ cookies, request }: APIContext) {
       }
 
       const target_device_id = result.data.device_id;
-
-      // Create Gemini AI instance
-      const gemini_ai = new GoogleGenAI({
-            apiKey: import.meta.env.GEMINI_API_KEY
-      });
       
       // Get the report key value
       const ai_report_cookie = cookies.get(import.meta.env.AI_REPORT_GENERATOR_KEY)?.value;
@@ -56,12 +51,17 @@ export async function POST({ cookies, request }: APIContext) {
       if(device_data == null) return create_response({ status: 404 });
 
 
-      // Gather data
+      // Gather sensors data for that device
       const sensors_data = await get_sensors_data_hourly_simple(target_device_id);
       if(!sensors_data) return create_response({ status: 500 });
 
+      // Create Gemini AI instance
+      const gemini_ai = new GoogleGenAI({
+            apiKey: import.meta.env.GEMINI_API_KEY
+      });
+
       // Run the Generative AI
-      console.log("AI START PROCESSING..");
+      console.log("[AI] Generating content..");
       const before_ai_process_time = Date.now();
       const ai_response = await gemini_ai.models.generateContent({
             model: "gemini-2.5-flash",
@@ -106,7 +106,7 @@ ${JSON.stringify(sensors_data)}
             ]
       });
       const ai_request_time_spent = Date.now() - before_ai_process_time;
-      console.log("AI PROCESS DONE!");
+      console.log("[AI] Content generated successfully");
       
 
       if(!ai_response.text) {
