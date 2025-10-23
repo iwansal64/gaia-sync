@@ -20,6 +20,8 @@ model connections {
   devices devices @relation(fields: [device_id], references: [id], onDelete: Cascade, map: "fk_device")
   users   users   @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
 
+  ai_chat_history ai_chat_history[]
+
   @@unique([user_id, device_id])
 }
 
@@ -35,7 +37,6 @@ model devices {
   // Relations
   connections connections[]
   ai_reports  ai_reports[]
-  ai_chat_history  ai_chat_history[]
 }
 
 model users {
@@ -71,6 +72,6 @@ model ai_chat_history {
   message    String   @db.VarChar(500)
 
   // Relations
-  device_id String @db.VarChar(5)
-  devices   devices @relation(fields: [device_id], references: [id], onDelete: Cascade, map: "fk_device")
+  connection_id String      @db.VarChar(5)
+  connections   connections @relation(fields: [connection_id], references: [id], onDelete: Cascade, map: "fk_connection")
 }

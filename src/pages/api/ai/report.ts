@@ -20,7 +20,6 @@ export async function GET({ request, cookies }: APIContext) {
 
       const target_report_id = result.data.report_id;
       
-      
 
       // Get and verify user data
       const user_data = await get_user_data_from_cookies(cookies);

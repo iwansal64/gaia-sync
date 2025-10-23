@@ -101,13 +101,13 @@ export async function POST({ cookies, request }: APIContext) {
                               id: generate_long_id(),
                               message: user_prompt,
                               role: "user",
-                              device_id: connection_data.device_id
+                              connection_id: connection_data.id,
                         },
                         {
                               id: generate_long_id(),
                               message: ai_message,
                               role: "model",
-                              device_id: connection_data.device_id
+                              connection_id: connection_data.id,
                         }
                   ]
             })
@@ -122,6 +122,60 @@ export async function POST({ cookies, request }: APIContext) {
       return create_response({
             body: {
                   message: ai_message
+            }
+      });
+}
+
+const GetType = z.object({
+      device_id: z.string()
+});
+
+export async function GET({ request, cookies }: APIContext) {
+      // Verify the user data
+      const user_data = await get_user_data_from_cookies(cookies);
+      if(!user_data) return create_response({ status: 401 });
+
+
+      // Get the device data from search query
+      const url = new URL(request.url);
+      const search_params = Object.fromEntries(url.searchParams.entries());
+      
+      // Verify the body;
+      const result = GetType.safeParse(search_params);
+      if (!result.success) {
+            return create_response({ status: 400 });
+      }
+
+      const target_device_id = result.data.device_id;
+      
+
+      // Verify the connections
+      const connection_data = await prisma.connections.findUnique({
+            where: {
+                  user_id_device_id: {
+                        device_id: target_device_id,
+                        user_id: user_data.id
+                  }
+            }
+      });
+      if(!connection_data) return create_response({ status: 404 });
+      if(!connection_data.device_accepted || !connection_data.user_accepted) return create_response({ status: 401 });
+
+
+      // Get the AI chat histories for the connection
+      const chat_histories = await prisma.ai_chat_history.findMany({
+            where: {
+                  connections: {
+                        id: connection_data.id
+                  }
+            }
+      });
+
+
+      // Return the Chat Histories data
+      return create_response({
+            body: {
+                  chat_histories: chat_histories
             }
       });
 }
