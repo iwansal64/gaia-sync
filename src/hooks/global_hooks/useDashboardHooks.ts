@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { useDashboardSidebarHooks } from "../dashboard_hooks/useDahboardSidebarHooks";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type TabType = "device_list" | "ai_reports" | "ai_chatbot" | "settings";
 
@@ -26,14 +27,22 @@ type useDashboardHooksType = {
       setCurrentTab: (newTab: TabType) => void;
 };
 
-export const useDashboardHooks = create<useDashboardHooksType>((set) => ({
-      currentTab: "device_list",
-      setCurrentTab(newTab) {
-            const { setOpen } = useDashboardSidebarHooks.getState();
-            setOpen(false);
+export const useDashboardHooks = create<useDashboardHooksType>()(
+      persist(
+            (set) => ({
+                  currentTab: "device_list",
+                  setCurrentTab(newTab) {
+                        const { setOpen } = useDashboardSidebarHooks.getState();
+                        setOpen(false);
 
-            set(() => ({
-                  currentTab: newTab,
-            }));
-      },
-}));
+                        set(() => ({
+                              currentTab: newTab,
+                        }));
+                  },
+            }),
+            {
+                  name: "gaia-dashboard-data",
+                  storage: createJSONStorage(() => sessionStorage)
+            }
+      )
+);
