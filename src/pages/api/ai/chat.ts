@@ -63,6 +63,11 @@ export async function POST({ cookies, request }: APIContext) {
       console.log("[AI] Generating content..");
       const ai_response = await gemini_ai.models.generateContent({
             model: "gemini-2.5-flash",
+            config: {
+                  thinkingConfig: {
+                        includeThoughts: false
+                  }
+            },
             contents: [
                   {
                         role: "user",
@@ -72,7 +77,7 @@ export async function POST({ cookies, request }: APIContext) {
                                     text: user_prompt
                               },
                               {
-                                    text: `Answer the message with max of 500 characters based on this data for the aquaponics. Each reading has Electrical Conductivity (EC, µS/cm), Total Dissolved Solids (TDS, ppm), pH, and Temperature (°C). and it's in JSON format:${JSON.stringify(sensors_data)}`
+                                    text: `Answer the message with max of 500 characters based on this data for an aquaponics system. Each reading has Electrical Conductivity (EC, µS/cm), Total Dissolved Solids (TDS, ppm), pH, and Temperature (°C). and it's in JSON format:${JSON.stringify(sensors_data)}`
                               }
                         ]
                   }
