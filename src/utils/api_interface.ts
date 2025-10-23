@@ -44,6 +44,13 @@ export enum ConnectDeviceResponseEnum {
   Error
 }
 
+export enum SendPromptResponseEnum {
+  Authorized,
+  Unauthorized,
+  NotFound,
+  Error
+}
+
 export class API {
   static async login(username: string, password: string): Promise<{[key: string]: string}|LoginResponseEnum> {
     //? Send post request
@@ -264,5 +271,25 @@ export class API {
     }
 
     return null;
+  }
+  
+  static async send_prompt(prompt: string, device_id: string): Promise<string | SendPromptResponseEnum> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/ai/chat",
+      method: "POST",
+      data: {
+        device_id: device_id,
+        prompt: prompt
+      }
+    });
+    
+    //? Check the respose
+    switch (response.status) {
+      case 200: return (await response.json())["message"];
+      case 401: return SendPromptResponseEnum.Unauthorized;
+      case 404: return SendPromptResponseEnum.NotFound;
+      default: return SendPromptResponseEnum.Error;
+    }
   }
 }
