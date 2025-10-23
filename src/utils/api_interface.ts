@@ -1,5 +1,5 @@
 import z from "zod";
-import { AccessedModelAIReport, AccessedModelDevice, type AccessedModelAIReportType, type AccessedModelDeviceType } from "../lib/model";
+import { AccessedModelAIReport, AccessedModelDevice, type AccessedModelAIReportType, type AccessedModelDeviceType, type AccessedModelChatHistoryType, AccessedModelChatHistory } from '../lib/model';
 
 const api_url: string = "/api";
 
@@ -234,6 +234,33 @@ export class API {
       }
 
       return safe_report_data.data;
+    }
+
+    return null;
+  }
+
+  static async get_chat_histories(device_id: string): Promise<AccessedModelChatHistoryType[] | null> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/ai/chat?device_id=" + device_id,
+      method: "GET"
+    });
+    
+    //? Check the respose
+    if (response.ok) {
+      const chat_histories = (await response.json())["chat_histories"];
+      if(chat_histories == undefined) {
+        return null;
+      }
+
+      const safe_chat_histories = z.array(AccessedModelChatHistory).safeParse(chat_histories);
+      
+      if(!safe_chat_histories.success) {
+        console.error(safe_chat_histories.error);
+        return null;
+      }
+
+      return safe_chat_histories.data;
     }
 
     return null;

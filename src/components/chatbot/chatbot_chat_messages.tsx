@@ -1,25 +1,36 @@
+import { useChatbotMessageHooks } from "../../hooks/chatbot_hooks/useChatbotMessageHooks";
+import UseChatbotMessageHooksEffect from "../../hooks/chatbot_hooks/useChatbotMessageHooksEffect";
+import { dynamicDateFormat } from "../../utils/date_formatting";
+
 export default function ChatbotChatMessages() {
-      // Retrieve chat messages herebg-gray-600/50 w-full h-full
+      // Retrieve chat messages here
+      const { messages } = useChatbotMessageHooks();
       
       return <>
-            <ChatBubble message="I've never been this good before! Thanks for asking me! So, what is your plan for the aquaponics system today? :D" />
-            <ChatBubble message="I'm fine thanks! How about you" side />
-            <ChatBubble message="Hello! How are you today?" />
-            <ChatBubble message="Hello!" side />
+            <UseChatbotMessageHooksEffect />
+            {(() => {
+                  if(!messages) return <></>
+                  
+                  return messages.map((message_data, index) => <ChatBubble key={index} message={message_data.message} from_user={message_data.from_user} timestamp={message_data.timestamp} />);
+            })()}
       </>;
 }
 
 
 interface ChatBubbleProps {
       message: string,
-      side?: boolean
+      from_user?: boolean,
+      timestamp: Date
 }
 
 function ChatBubble(props: ChatBubbleProps) {
 
-      return <div className={`w-full p-4 flex flex-col ${props.side && "items-end"} bg-gray-600 text-white rounded-2xl`}>
-            <p className={`font-semibold ${props.side && "text-right"}`}>{props.side ? "You" : "AI Chatbot"}</p>
-            <p className={`w-3/5 font-thin text-left ${props.side && "text-right"}`}>
+      return <div className={`w-full p-4 flex flex-col gap-2 bg-gray-600 text-white rounded-2xl`}>
+            <div className="flex items-center justify-between">
+                  <p className={`font-semibold`}>{props.from_user ? "You" : "AI Chatbot"}</p>
+                  <p className="text-xs font-thin">{dynamicDateFormat(props.timestamp)}</p>
+            </div>
+            <p className={`w-3/5 font-thin text-left`}>
                   {props.message}
             </p>
       </div>

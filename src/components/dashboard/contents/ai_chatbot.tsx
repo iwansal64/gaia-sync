@@ -1,4 +1,4 @@
-import { useChatbotHooks } from "../../../hooks/chatbot_hooks/useChatbotHooks";
+import { useChatbotPageHooks } from "../../../hooks/chatbot_hooks/useChatbotPageHooks";
 import { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
 import UseDeviceDataHooksEffect from "../../../hooks/device_hooks/useDeviceDataHooksEffect";
 import { dateFormat } from "../../../utils/date_formatting";
@@ -29,7 +29,7 @@ interface DeviceCardProps {
 }
 
 function DeviceCard(props: DeviceCardProps) {
-  const { setDeviceIdContext } = useChatbotHooks();
+  const { setDeviceIdContext } = useChatbotPageHooks();
   const handleClick = () => {
     setDeviceIdContext(props.device_id);
     window.location.href = `/ai/chat/`;

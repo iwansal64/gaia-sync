@@ -100,13 +100,13 @@ export async function POST({ cookies, request }: APIContext) {
                         {
                               id: generate_long_id(),
                               message: user_prompt,
-                              role: "user",
+                              from_user: true,
                               connection_id: connection_data.id,
                         },
                         {
                               id: generate_long_id(),
                               message: ai_message,
-                              role: "model",
+                              from_user: false,
                               connection_id: connection_data.id,
                         }
                   ]

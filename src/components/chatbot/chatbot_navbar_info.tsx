@@ -1,8 +1,8 @@
-import { useChatbotHooks } from "../../hooks/chatbot_hooks/useChatbotHooks";
+import { useChatbotPageHooks } from "../../hooks/chatbot_hooks/useChatbotPageHooks";
 import { useDeviceDataHooks } from "../../hooks/device_hooks/useDeviceDataHooks";
 
 export default function ChatbotNavbarInfo() {
-      const { deviceIdContext } = useChatbotHooks();
+      const { deviceIdContext } = useChatbotPageHooks();
       const { indexedDevicesData } = useDeviceDataHooks();
       
       return <>
