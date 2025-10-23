@@ -1,12 +1,9 @@
-import { useDashboardSidebarHooks } from "../../../hooks/dashboard_hooks/useDahboardSidebarHooks";
-import { useDashboardHooks, type TabType } from "../../../hooks/global_hooks/useDashboardHooks";
+import { tabTypeToTitle, useDashboardHooks, type TabType } from "../../../hooks/global_hooks/useDashboardHooks";
 
 export default function DashboardSidebarButtons() {
   return <>
     <div className="flex flex-col w-full mt-4">
-      <DashboarSidebardButton  tab_name="Device List" tab_type="device_list" />
-      <DashboarSidebardButton  tab_name="AI Reports" tab_type="ai_reports" />
-      <DashboarSidebardButton  tab_name="Settings" tab_type="settings" />
+      {Object.keys(tabTypeToTitle).map((type, index) => <DashboarSidebardButton key={index} tab_name={tabTypeToTitle[type as TabType]} tab_type={type as TabType} />)}
     </div>
   </>;
 }

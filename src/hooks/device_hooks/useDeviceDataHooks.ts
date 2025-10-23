@@ -14,6 +14,9 @@ type DeviceDataHookstype = {
   setDevicesData: (newDevicesData: AccessedModelDeviceType[]) => void
 
   indexedDevicesData?: IndexedDevicesDataType,
+
+  deviceSearchKeyword: string,
+  setDeviceSearchKeyword: (newDeviceSearchKeyword: string) => void
 };
 
 export const useDeviceDataHooks = create<DeviceDataHookstype>()(
@@ -41,9 +44,16 @@ export const useDeviceDataHooks = create<DeviceDataHookstype>()(
       },
 
       indexedDevicesData: {},
+
+      deviceSearchKeyword: "",
+      setDeviceSearchKeyword(newDeviceSearchKeyword) {
+          set(() => ({
+            deviceSearchKeyword: newDeviceSearchKeyword
+          }));
+      },
     }),
     {
-      name: "gaia-connection-data",
+      name: "gaia-devices-data",
       storage: createJSONStorage(() => sessionStorage)
     }
 ))
