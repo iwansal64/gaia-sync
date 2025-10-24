@@ -30,3 +30,12 @@ export const AccessedModelAIReport = z.object({
 });
 
 export type AccessedModelAIReportType = z.infer<typeof AccessedModelAIReport>;
+
+export const AccessedModelChatHistory = z.object({
+  created_at: z.string(),
+  id: z.string(),
+  message: z.string(),
+  from_user: z.boolean()
+});
+
+export type AccessedModelChatHistoryType = z.infer<typeof AccessedModelChatHistory>;

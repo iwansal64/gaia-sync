@@ -1,0 +1,42 @@
+import { useChatbotPageHooks } from "../../../hooks/chatbot_hooks/useChatbotPageHooks";
+import { useDeviceDataHooks } from "../../../hooks/device_hooks/useDeviceDataHooks";
+import UseDeviceDataHooksEffect from "../../../hooks/device_hooks/useDeviceDataHooksEffect";
+import { dateFormat } from "../../../utils/date_formatting";
+
+export default function AIChatbot() {
+      const { devicesData, deviceSearchKeyword, setDeviceSearchKeyword } = useDeviceDataHooks();
+
+      return <>
+          <UseDeviceDataHooksEffect />
+          <div className="w-full h-full flex flex-col">
+            <div className="w-full h-fit p-4 flex flex-col gap-2">
+              <input id="device-search-keyword" type="text" className="bg-gray-400 px-6 py-3 outline-none w-full rounded-full" placeholder="Search for device name" value={deviceSearchKeyword} onChange={(e) => setDeviceSearchKeyword(e.target.value.toLowerCase())} />
+              <div className="mt-4 w-full h-full grid grid-cols-1 md:grid-cols-4 auto-rows-[200px] gap-4 overflow-y-auto overflow-x-hidden">
+                {devicesData?.filter((data) => data.device_name.toLowerCase().includes(deviceSearchKeyword)).map((data, index) => {
+                  return <DeviceCard key={index} device_id={data.id} device_last_seen={data.last_online ? new Date(data.last_online) : undefined} device_name={data.device_name} />
+                })}
+              </div>
+            </div>
+          </div>
+      </>;
+}
+
+
+interface DeviceCardProps {
+  device_name: string,
+  device_last_seen?: Date,
+  device_id: string
+}
+
+function DeviceCard(props: DeviceCardProps) {
+  const { setDeviceIdContext } = useChatbotPageHooks();
+  const handleClick = () => {
+    setDeviceIdContext(props.device_id);
+    window.location.href = `/ai/chat/`;
+  }
+
+  return <button className="relative text-left p-4 flex flex-col bg-gray-300 rounded-2xl cursor-pointer hover:brightness-105" onClick={handleClick}>
+    <h1 className="text-xl font-semibold">{props.device_name}</h1>
+    {props.device_last_seen ? <p className="absolute bottom-3">{dateFormat(props.device_last_seen)}</p> : <p className="opacity-50 text-sm absolute bottom-3">Device has never online.</p>}
+  </button>
+}

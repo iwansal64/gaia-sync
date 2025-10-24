@@ -43,7 +43,7 @@ function onSubscribeCallback(showMessage: toastShowMessageFunction, err: Error |
 
 
 export default function UseConnectionHooksEffect() {
-  const { setIsConnected } = useConnectionHooks();
+  const { setIsConnected, setMqttClient } = useConnectionHooks();
   const { accessToken, userId } = useUserDataHooks();
   const { deviceId } = useDeviceDataHooks();
   const { setData } = useSensorDataHooks();
@@ -120,6 +120,8 @@ export default function UseConnectionHooksEffect() {
           break;
       }
     });
+
+    setMqttClient(mqttClient);
 
     return (() => {
       if(mqttClient.connected) {

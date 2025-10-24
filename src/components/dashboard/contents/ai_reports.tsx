@@ -79,7 +79,7 @@ function ReportEntry(props: ReportEntryProps) {
       
       const handleClick = () => {
             setReportData(props.id, props.device_name);
-            window.location.href = "/report";
+            window.location.href = "/ai/report";
       };
 
       return (
