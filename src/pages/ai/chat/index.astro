@@ -3,10 +3,12 @@ import ChatbotNavbar from "../../../components/chatbot/chatbot_navbar.astro";
 import ChatbotChatContainer from "../../../components/chatbot/chatbot_chat_container.astro";
 import BaseLayout from "../../../layout/base-layout.astro";
 import ChatbotChatInputForm from "../../../components/chatbot/chatbot_chat_input_form.astro";
+import LoginRequired from "../../../components/global/login_required";
 
 
 ---
 
+<LoginRequired client:load />
 <BaseLayout>
       <div class="relative w-dvw max-h-dvh h-dvh flex flex-col overflow-hidden">
             <ChatbotNavbar />
