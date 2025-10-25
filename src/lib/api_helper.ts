@@ -117,7 +117,7 @@ type IndexedSensorData = {
 
 export async function get_sensors_data(device_id: string): Promise<IndexedSensorData | null> {
   const response = await fetch(
-    "http://localhost:8091/sensor/get",
+    `${import.meta.env.SENSOR_DATA_SERVER_URL}/sensor/get`,
     {
       method: "POST",
       headers: {
