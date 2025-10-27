@@ -38,6 +38,7 @@ export async function POST({ request }: APIContext): Promise<Response> {
   const user_data = await prisma.users.findUnique({
     where: {
       email: email,
+      verification_token: null
     },
   });
 
@@ -88,8 +89,14 @@ export async function POST({ request }: APIContext): Promise<Response> {
   }
 
   // Save the token to the database
-  await prisma.users.create({
-    data: {
+  await prisma.users.upsert({
+    where: {
+      email: email,
+    },
+    update: {
+      verification_token: generated_verification_token
+    },
+    create: {
       id: generated_id,
       email: email,
       verification_token: generated_verification_token
