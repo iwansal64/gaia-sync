@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+let toastTimeoutInstance: NodeJS.Timeout | null = null;
 
 export type toastHooksType = {
   isOpen: boolean,
@@ -24,7 +25,8 @@ export const useToastHooks = create<toastHooksType>((set) => ({
     
     if(timeout) {
       const { closeToast: clearMessage } = useToastHooks.getState();
-      setTimeout(clearMessage, timeout);
+      if(toastTimeoutInstance) clearTimeout(toastTimeoutInstance);
+      toastTimeoutInstance = setTimeout(clearMessage, timeout);
     }
   },
   

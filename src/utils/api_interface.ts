@@ -51,6 +51,14 @@ export enum SendPromptResponseEnum {
   Error
 }
 
+export enum UpdateUserResponseEnum {
+  Authorized,
+  Unauthorized,
+  UnauthorizedPrevPassword,
+  NotFound,
+  Error
+}
+
 export class API {
   static async login(username: string, password: string): Promise<{[key: string]: string}|LoginResponseEnum> {
     //? Send post request
@@ -290,6 +298,29 @@ export class API {
       case 401: return SendPromptResponseEnum.Unauthorized;
       case 404: return SendPromptResponseEnum.NotFound;
       default: return SendPromptResponseEnum.Error;
+    }
+  }
+
+  static async update_user(new_username: string, new_password: string, prev_password: string): Promise<UpdateUserResponseEnum> {
+    //? Send post request
+    const response = await send_api_request({
+      endpoint: "/user/edit",
+      method: "POST",
+      data: {
+        username: new_username,
+        password: new_password,
+        prev_password: prev_password,
+      }
+    });
+    
+    //? Check the respose
+    switch (response.status) {
+      case 200: return UpdateUserResponseEnum.Authorized;
+      case 401:
+        if((await response.json())["code"] == 1) return UpdateUserResponseEnum.UnauthorizedPrevPassword
+        else return UpdateUserResponseEnum.Unauthorized
+      case 404: return UpdateUserResponseEnum.NotFound;
+      default: return UpdateUserResponseEnum.Error;
     }
   }
 }

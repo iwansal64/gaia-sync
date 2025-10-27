@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 import { prisma } from "../../../lib/db";
 import { z } from "zod";
-import { create_response, generate_id, get_user_data_from_cookies } from "../../../lib/api_helper";
+import { create_response, generate_id, get_device_data_from_cookies, get_user_data_from_cookies } from "../../../lib/api_helper";
 
 
 const PostType = z.object({
@@ -32,7 +32,7 @@ export async function POST({ request, cookies }: APIContext): Promise<Response> 
 
 
   // Verify the access token
-  const device_data = await get_user_data_from_cookies(cookies, true);
+  const device_data = await get_device_data_from_cookies(cookies);
 
   if(!device_data) return create_response({ status: 401 });
   
