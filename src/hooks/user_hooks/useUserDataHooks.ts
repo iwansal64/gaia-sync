@@ -6,6 +6,9 @@ type UseUserDataType = {
   userId?: string,
   setUserId: (newUserId: string) => void,
 
+  username?: string,
+  setUsername: (newUsername: string) => void,
+
   accessToken?: string,
   setAccessToken: (newAccessToken: string) => void,
 
@@ -19,8 +22,15 @@ export const useUserDataHooks = create<UseUserDataType>()(
       setUserId(newClientId) {
         set(() => ({
           userId: newClientId
-        }));    
+        }));
       }, 
+      
+      username: "",
+      setUsername(newUsername) {
+        set(() => ({
+          username: newUsername
+        }));
+      },
 
       accessToken: "",
       setAccessToken(newAccessToken) {

@@ -89,6 +89,7 @@ export async function POST({ request }: APIContext): Promise<Response> {
   return create_response({ 
     body: {
       "id": user_data.id,
+      "username": user_data.username,
       "access_token": generated_access_token,
       "device_token": device_data?.id || ""
     },

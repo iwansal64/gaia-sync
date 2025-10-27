@@ -58,7 +58,7 @@ export async function onRegisterPressed(email: string): Promise<boolean> {
     const response = await API.register(email);
     
     // If success,
-    if(response) showMessage({ title: "Please check your email address!" });
+    if(response) showMessage({ title: "Register success, check your email for the token!" });
     // If not,
     else         showMessage({ title: "An unknown error has occured!" });
 

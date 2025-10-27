@@ -64,7 +64,7 @@ export async function POST({ cookies, request }: APIContext) {
       console.log("[AI] Generating content..");
       const before_ai_process_time = Date.now();
       const ai_response = await gemini_ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: import.meta.env.AI_MODEL,
             config: {
                   responseMimeType: "application/json",
                   responseSchema: {

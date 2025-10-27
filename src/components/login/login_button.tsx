@@ -7,7 +7,7 @@ import { useDeviceDataHooks } from "../../hooks/device_hooks/useDeviceDataHooks"
 
 export default function LoginButton() {
   const { username, password } = useLoginHooks();
-  const { setUserId, setAccessToken } = useUserDataHooks();
+  const { setUserId, setAccessToken, setUsername } = useUserDataHooks();
   const { setDeviceId } = useDeviceDataHooks();
   
   const handleLogin = async () => {
@@ -15,6 +15,7 @@ export default function LoginButton() {
     if(result) {
       resetAllStorageState();
       setUserId(result["id"]);
+      setUsername(result["username"]);
       setDeviceId(result["device_token"]);
       setAccessToken(result["access_token"]);
       setTimeout(() => window.location.href = "/", 1000);

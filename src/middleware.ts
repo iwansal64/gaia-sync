@@ -1,7 +1,8 @@
 import { defineMiddleware } from "astro/middleware";
-import { create_response, get_user_data_from_cookies } from "./lib/api_helper";
+import { create_response, get_device_data_from_cookies, get_user_data_from_cookies } from "./lib/api_helper";
+import type { devices, users } from "@prisma/client";
 
-const allowed_pathnames: string[] = ["/api/user/login", "/api/user/register", "/api/user/verify", "/api/user/create", "/api/ai/create"];
+const allowed_pathnames: string[] = ["/api/user/login", "/api/user/register", "/api/user/verify", "/api/user/create", "/api/ai/create", "/api/ai/create_all"];
 
 export const onRequest = defineMiddleware(async ({ request, cookies, url }, next) => {
   console.log(`[${new Date().toISOString()}] ${request.method} ${url}`);
@@ -13,8 +14,8 @@ export const onRequest = defineMiddleware(async ({ request, cookies, url }, next
       if(!access_token) return create_response({ status: 401 });
       
       // Check into the database
-      let user_data = await get_user_data_from_cookies(cookies);
-      if(!user_data) user_data = await get_user_data_from_cookies(cookies, true);
+      let user_data: users | devices | null = await get_user_data_from_cookies(cookies);
+      if(!user_data) user_data = await get_device_data_from_cookies(cookies);
       
       // Verify if the user exists
       if(!user_data) return create_response({ status: 401 });
