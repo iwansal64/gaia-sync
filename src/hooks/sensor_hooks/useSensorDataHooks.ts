@@ -26,6 +26,12 @@ export const useSensorDataHooks = create<UseSensorDataHookType>((set) => ({
   },
   
   setData(newData) {
+    if(newData.ec && newData.ec < 0) {
+      newData = {
+        ...newData,
+        ec: 100
+      }
+    }
     set((state) => ({
       ...state,
       ...newData

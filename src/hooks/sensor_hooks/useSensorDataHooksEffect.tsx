@@ -7,7 +7,7 @@ export default function UseSensorDataHooksEffect() {
   useEffect(() => {
     if(!ec || !tds) return;
 
-    if(ec < 3 && tds < 500) {
+    if(tds < 1000) {
       setWaterQuality("Good");
     }
     else {
