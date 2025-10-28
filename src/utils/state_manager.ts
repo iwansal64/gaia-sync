@@ -1,4 +1,7 @@
+import { useAddDeviceHooks } from "../hooks/dashboard_hooks/useDashboardAddDeviceHook";
 import { useDashboardReportsHooks } from "../hooks/dashboard_hooks/useDashboardReportsHooks";
+import { useReportHooks } from "../hooks/reports_hooks/useReportHooks";
+import { useConnectionHooks } from "../hooks/sensor_hooks/useConnectionHooks";
 import { useUserDataHooks } from "../hooks/user_hooks/useUserDataHooks";
 
 export const DATA_EXPIRATION_TIME = 60; // Data will expired after a minute
@@ -6,6 +9,7 @@ export const DATA_EXPIRATION_TIME = 60; // Data will expired after a minute
 export function resetAllStorageState() {
       useDashboardReportsHooks.persist.clearStorage();
       useUserDataHooks.persist.clearStorage();
+      useReportHooks.persist.clearStorage();
 }
 
 type ExpirationModifierResult<T extends object> = {

@@ -15,6 +15,8 @@ export class MQTT {
       
             try {
                   mqttClient.publish(`${deviceId}/feed`, "1");
+                  console.log(`${deviceId}/feed`);
+                  console.log("SUCCESS!");
                   return FeedFishReturnType.OK;
             }
             catch(err) {
