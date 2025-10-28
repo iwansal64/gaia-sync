@@ -17,24 +17,32 @@ export default function ChatbotChatInputSend() {
             setChatbotInputMessage("");
             setChatbotProcess(true);
 
+            const previousMessages = structuredClone(messages);
+
+            const user_chat_date = new Date();
             setMessages([
-                  ...messages,
+                  ...previousMessages,
                   {
                         from_user: true,
                         message: chatbotInputMessage,
-                        timestamp: new Date()
+                        timestamp: user_chat_date
                   },
             ]);
 
             const result = await API.send_prompt(chatbotInputMessage, deviceIdContext);
             if(typeof result === "string") {
                   setMessages([
-                        ...messages,
+                        ...previousMessages,
+                        {
+                              from_user: true,
+                              message: chatbotInputMessage,
+                              timestamp: user_chat_date
+                        },
                         {
                               from_user: false,
                               message: result,
                               timestamp: new Date()
-                        }
+                        },
                   ]);
             }
             else {

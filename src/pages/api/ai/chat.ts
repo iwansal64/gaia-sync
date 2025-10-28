@@ -77,7 +77,7 @@ export async function POST({ cookies, request }: APIContext) {
                                     text: user_prompt
                               },
                               {
-                                    text: `Answer the message with max of 500 characters based on this data for an aquaponics system. Each reading has Electrical Conductivity (EC, µS/cm), Total Dissolved Solids (TDS, ppm), pH, and Temperature (°C). and it's in JSON format:${JSON.stringify(sensors_data)}`
+                                    text: `Answer the message from a customer where they don't really know about sensors and technical terms. So, explain with simple terms instead. The answer has a max of 500 characters and based on this data from an aquaponics system. Each reading has Electrical Conductivity (EC, µS/cm), Total Dissolved Solids (TDS, ppm), pH, and Temperature (°C). and it's in JSON format:${JSON.stringify(sensors_data)}`
                               }
                         ]
                   }
